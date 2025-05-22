@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Telkomsel Batik Sans";
+  src: url("/fonts/TelkomselBatikSans-Regular.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Telkomsel Batik Sans";
+  src: url("/fonts/TelkomselBatikSans-Bold.ttf");
+  font-weight: 700;
+}
+
+.tsel-font {
+  font-family: "Telkomsel Batik Sans";
+}
+
+.poppins-font {
+  font-family: "Poppins";
+}
+
+.detail-polis-responsive {
+  top: 112px;
+}
+
+/* @media (min-width: 512px) {
+  .detail-polis-responsive {
+    top: 25%;
+  }
+} */
+
+button {
+  cursor: pointer;
+}
+
+.hidden-scrollbar {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+body {
+  color: #181c21;
+  font-family: "Poppins";
+}
