@@ -2,31 +2,31 @@
 
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Regular.ttf");
+  src: url("/fonts/Poppins-Regular.woff2");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-SemiBold.ttf");
+  src: url("/fonts/Poppins-SemiBold.woff2");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Bold.ttf");
+  src: url("/fonts/Poppins-Bold.woff2");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Telkomsel Batik Sans";
-  src: url("/fonts/TelkomselBatikSans-Regular.ttf");
+  src: url("/fonts/TelkomselBatikSans-Regular.woff2");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Telkomsel Batik Sans";
-  src: url("/fonts/TelkomselBatikSans-Bold.ttf");
+  src: url("/fonts/TelkomselBatikSans-Bold.woff2");
   font-weight: 700;
 }
 
