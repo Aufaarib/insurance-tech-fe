@@ -19,13 +19,15 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <div className={`bg-[#eff1f4] w-screen md:w-[412px]`}>
+    <div
+      className={`bg-[#eff1f4] w-screen h-screen overflow-hidden md:w-[412px]`}
+    >
       {/* header */}
       <button
         onClick={onRouteBack}
         className={`${
           pageTitle == "" && "hidden"
-        } flex flex-row gap-[8px] bg-white pb-[14px] px-[8px] w-full mt-[12px]`}
+        } flex flex-row gap-[8px] bg-white pb-[14px] px-[8px] w-full pt-[12px]`}
       >
         <IconArrowLeft />
         <p>{pageTitle}</p>

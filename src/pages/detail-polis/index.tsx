@@ -71,7 +71,8 @@ const DetailPolis = () => {
         height={100}
         unoptimized
       />
-      <div className="flex flex-col p-[18px] w-full absolute h-screen gap-[12px] pt-[27%] pb-[200px] overflow-auto hidden-scrollbar">
+
+      <div className="flex flex-col p-[18px] w-full absolute h-[100dvh] gap-[12px] pt-[27%] pb-[70%] overflow-auto hidden-scrollbar">
         <div className="flex w-full flex-col items-start p-[16px] gap-[12px] bg-white rounded-[12px]">
           <div>
             <p className="text-[16px] font-[700] tsel-font">

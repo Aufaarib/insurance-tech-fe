@@ -16,7 +16,7 @@ export default function Home() {
   });
 
   return (
-    <div className="relative flex flex-col items-center overflow-auto h-[94dvh] hidden-scrollbar">
+    <div className="relative flex flex-col items-center overflow-auto h-[100dvh] hidden-scrollbar">
       <p className="absolute left-[16px] top-[16px] text-white text-[16px] font-[400]">
         Asuransi
       </p>
@@ -29,7 +29,7 @@ export default function Home() {
         unoptimized
       />
       {/* content parent */}
-      <div className="flex flex-col p-[18px] w-full absolute h-screen top-[220px] gap-[24px] pb-[90px]">
+      <div className="flex flex-col p-[18px] w-full absolute top-[220px] gap-[24px] pb-[90px]">
         {/* content */}
         <div className="flex w-full flex-col items-center justify-center p-[16px] gap-[12px] bg-white rounded-[12px]">
           <div className="flex flex-row w-full justify-between">
