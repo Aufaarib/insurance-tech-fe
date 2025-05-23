@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { ReactNode, useEffect, useState } from "react";
 
 const PolisCard = ({ onClick }: { onClick: any }) => {
@@ -89,9 +90,30 @@ const PolisCard = ({ onClick }: { onClick: any }) => {
   );
 };
 
-const KlaimCard = ({ onClick }: { onClick: any }) => {
+const KlaimCard = ({
+  key,
+  onClick,
+  title,
+  brand,
+  polis_category,
+  status_polis,
+  status_klaim,
+}: // id_klaim,
+// date_klaim,
+{
+  key: number;
+  onClick: any;
+  title: string;
+  brand: string;
+  polis_category: string;
+  status_polis: string;
+  status_klaim: string;
+}) => {
   return (
-    <div className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full">
+    <div
+      key={key}
+      className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full"
+    >
       {/* card polis status */}
       <button
         onClick={() => onClick()}
@@ -99,7 +121,7 @@ const KlaimCard = ({ onClick }: { onClick: any }) => {
       >
         <div className="flex flex-row items-center justify-center gap-[8px]">
           <Image
-            src="/icons/polis-category.png"
+            src={polis_category}
             alt="polis-category"
             className="w-[40px]"
             width={100}
@@ -108,7 +130,7 @@ const KlaimCard = ({ onClick }: { onClick: any }) => {
           />
           <div className="flex flex-col gap-[4px]">
             <Image
-              src="/icons/Allianz.png"
+              src={brand}
               alt="brand"
               className="w-[40px]"
               width={100}
@@ -116,7 +138,7 @@ const KlaimCard = ({ onClick }: { onClick: any }) => {
               unoptimized
             />
             <p className="text-[#181C21] text-[12px] font-[600] text-start">
-              Proteksi dari Kerugian Serangan Hacker
+              {title}
             </p>
           </div>
         </div>
@@ -129,7 +151,7 @@ const KlaimCard = ({ onClick }: { onClick: any }) => {
           <>
             <p>Status Polis</p>
             <p className="px-[8px] py-[4px] bg-[#008E53] text-white text-[10px] font-[600] poppins-font rounded-[4px]">
-              Polis Aktif
+              {status_polis}
             </p>
           </>
         </CardContents>
@@ -137,7 +159,7 @@ const KlaimCard = ({ onClick }: { onClick: any }) => {
           <>
             <p>Status Klaim</p>
             <p className="px-[8px] py-[4px] bg-[#E9F6FF] text-[#0050AE] text-[10px] font-[600] poppins-font rounded-[4px]">
-              Klaim Diproses
+              {status_klaim}
             </p>
           </>
         </CardContents>
@@ -170,6 +192,63 @@ const MyPolisPage = () => {
   useEffect(() => {
     setPageTitle("Polis Saya");
   }, []);
+
+  const claimpolises = [
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Aktif",
+      status_klaim: "Diproses",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Aktif",
+      status_klaim: "Ditolak",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Aktif",
+      status_klaim: "Butuh Tindakan",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Aktif",
+      status_klaim: "Klaim Disetujui",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Aktif",
+      status_klaim: "Dibayarkan",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category.png",
+      status_polis: "Polis Kedaluwarsa",
+      status_klaim: "Klaim Kedaluwarsa",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+  ];
 
   return (
     <div>
@@ -215,10 +294,21 @@ const MyPolisPage = () => {
           </button>
         </div>
       </div>
+
       {/* body */}
       <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[250px]">
-        {category == "Klaim" ? (
-          <KlaimCard onClick={() => router.push("/detail-polis")} />
+        {category === "Klaim" ? (
+          claimpolises.map((val: any, index: number) => (
+            <KlaimCard
+              key={index}
+              title={val.title}
+              brand={val.brand}
+              polis_category={val.polis_category}
+              status_klaim={val.status_klaim}
+              status_polis={val.status_polis}
+              onClick={() => router.push("/detail-polis")}
+            />
+          ))
         ) : (
           <PolisCard onClick={() => router.push("/detail-polis")} />
         )}

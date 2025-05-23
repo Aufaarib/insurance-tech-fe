@@ -2,14 +2,23 @@
 
 import { usePageContext } from "@/components/Contexts/PagesContext";
 import BasicCard from "@/components/Shared/BasicCard";
-import { IconChevronRight, IconChevronUp } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconChevronRight,
+  IconChevronUp,
+} from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const { pageTitle, setPageTitle } = usePageContext();
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggleItem = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
 
   useEffect(() => {
     setPageTitle("");
@@ -42,6 +51,32 @@ export default function Home() {
     },
     {
       icon: "/icons/Lippo.png",
+    },
+  ];
+
+  const faqs = [
+    {
+      title: "Apa yang dimaksud dengan Igloo?",
+      text: "Igloo adalah perusahaan pialang (broker) asuransi digital di Indonesia yang bekerja sama dengan berbagai perusahaan asuransi untuk menyediakan layanan pembelian polis yang lebih cepat.",
+    },
+    {
+      title: "Bagaimana cara membeli asuransi di MyTelkomsel?",
+      text: "Igloo adalah perusahaan pialang (broker) asuransi digital di Indonesia yang bekerja sama dengan berbagai perusahaan asuransi untuk menyediakan layanan pembelian polis yang lebih cepat.",
+    },
+    {
+      title:
+        "Apa syarat yang diperlukan untuk membeli asuransi di MyTelkomsel?",
+      text: "Igloo adalah perusahaan pialang (broker) asuransi digital di Indonesia yang bekerja sama dengan berbagai perusahaan asuransi untuk menyediakan layanan pembelian polis yang lebih cepat.",
+    },
+    {
+      title: "Bagaimana cara klaim asuransi di MyTelkomsel?",
+      text: "Igloo adalah perusahaan pialang (broker) asuransi digital di Indonesia yang bekerja sama dengan berbagai perusahaan asuransi untuk menyediakan layanan pembelian polis yang lebih cepat.",
+    },
+  ];
+
+  const others = [
+    {
+      title: "Punya pertanyaan lain tentang produk asuransi di MyTelkomsel?",
     },
   ];
 
@@ -165,19 +200,38 @@ export default function Home() {
         </BasicCard>
 
         <BasicCard title="Pertanyaan Umum">
-          <div className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] pb-2 p-[16px]">
-            <div className="flex flex-row w-full justify-between items-center">
-              <p className="font-[400] text-[12px]">
-                Apa yang Dimaksud dengan Igloo?
-              </p>
-              <IconChevronUp />
+          {faqs.map((val: any, index: number) => (
+            <div className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]">
+              <button
+                onClick={() => toggleItem(index)}
+                className="flex flex-row w-full justify-between items-center text-start gap-[16px]"
+              >
+                <p className="font-[400] text-[12px] w-[80%]">{val.title}</p>
+                {openIndex === index ? (
+                  <IconChevronUp size={20} />
+                ) : (
+                  <IconChevronDown size={20} />
+                )}
+              </button>
+
+              {openIndex === index && (
+                <p className="text-[#757F90] text-[12px] font-[400]">
+                  {val.text}
+                </p>
+              )}
             </div>
-            <p className="text-[#757F90] text-[12px] font-[400]">
-              Igloo adalah perusahaan pialang (broker) asuransi digital di
-              Indonesia yang bekerja sama dengan berbagai perusahaan asuransi
-              untuk menyediakan layanan pembelian polis yang lebih cepat.
-            </p>
-          </div>
+          ))}
+        </BasicCard>
+
+        <BasicCard title="Informasi Lainnya">
+          {others.map((val: any) => (
+            <button className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]">
+              <div className="flex flex-row w-full justify-center items-center text-left">
+                <p className="font-[400] text-[12px]">{val.title}</p>
+                <IconChevronRight size={20} />
+              </div>
+            </button>
+          ))}
         </BasicCard>
 
         <div className="flex flex-col w-full justify-center items-center gap-[4px]">

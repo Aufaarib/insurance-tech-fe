@@ -3,10 +3,9 @@ import { Head, Html, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html lang="en">
-      {/* <head>
+      <Head>
         <title>Insurance Tech</title>
-      </head> */}
-      <Head />
+      </Head>
       <body className="flex justify-center h-[95dvh] overflow-hidden">
         <Main />
         <NextScript />
