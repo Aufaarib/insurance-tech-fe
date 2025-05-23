@@ -202,7 +202,7 @@ const MyPolisPage = () => {
       </div>
 
       {/* body */}
-      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[60%]">
+      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[350px]">
         {category === "Klaim"
           ? claimpolises.map((val: any, index: number) => (
               <Card
