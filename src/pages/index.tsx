@@ -26,10 +26,16 @@ export default function Home() {
 
   const subscribedpolises = [
     {
-      type: "Serangan Hacker",
-      brand: "allianz",
-      date: "31 Jan 2025",
       title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/serangan-hacker.png",
+      date: "31 Jan 2025",
+    },
+    {
+      title: "Proteksi Layar Handphone",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/proteksi-layar.png",
+      date: "31 Jan 2025",
     },
   ];
 
@@ -125,43 +131,45 @@ export default function Home() {
             {subscribedpolises.map((val: any) => (
               <button
                 onClick={() => router.push("/my-polis")}
-                className="flex flex-row gap-[12px] w-full items-center justify-start p-[16px] border-[1px] border-[#DAE0E9] rounded-[12px]"
+                className="flex flex-row w-full items-center justify-between p-[16px] border-[1px] border-[#DAE0E9] rounded-[12px]"
               >
-                <Image
-                  src="/icons/polis-category.png"
-                  alt="polis-category"
-                  className="w-[40px]"
-                  width={100}
-                  height={100}
-                  unoptimized
-                />
-                <div className="flex flex-col gap-[4px] items-start justify-start">
+                <div className="flex flex-row w-full items-center gap-[12px]">
                   <Image
-                    src="/icons/Allianz.png"
-                    alt="brand"
-                    className="w-[40px]"
+                    src={val.polis_category}
+                    alt="polis-category"
+                    className="w-[40px] h-[40px]"
                     width={100}
                     height={100}
                     unoptimized
                   />
-                  <p className="text-[#181C21] text-[12px] font-[600] text-start">
-                    {val.title}
-                  </p>
-                  <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
-                    <svg
-                      width="8"
-                      height="10"
-                      viewBox="0 0 8 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1.34198 10H6.61469C7.16867 10 7.49977 9.69593 7.49977 9.10934V8.96797C7.50533 7.46871 5.90894 6.25197 5.20829 5.58937C5.01274 5.40465 4.90964 5.2364 4.90964 4.99189C4.90964 4.74738 5.01274 4.58445 5.20853 4.39441C5.90361 3.72068 7.5 2.58019 7.5 1.02114V0.890887C7.5 0.30407 7.16867 0 6.61492 0H1.34175C0.798656 0 0.5 0.30407 0.5 0.841986V1.02114C0.5 2.58019 2.09639 3.72068 2.79703 4.39441C2.99259 4.58445 3.09569 4.74738 3.09569 4.99189C3.09569 5.2364 2.99259 5.40465 2.7968 5.58937C2.09639 6.2522 0.5 7.46894 0.5 8.96797V9.15801C0.5 9.6957 0.798656 10 1.34175 10M1.54263 1.62418H6.46246C6.66867 1.62418 6.70134 1.7871 6.58202 2.00983C6.09314 2.88982 4.44787 4.30194 4.00255 4.30194C3.55723 4.30194 1.91196 2.90048 1.42308 2.00983C1.30375 1.7871 1.33619 1.62418 1.54263 1.62418Z"
-                        fill="#757F90"
-                      />
-                    </svg>
+                  <div className="flex flex-col gap-[4px] items-start justify-start">
+                    <Image
+                      src={val.brand}
+                      alt="brand"
+                      className="w-[40px]"
+                      width={100}
+                      height={100}
+                      unoptimized
+                    />
+                    <p className="text-[#181C21] text-[12px] font-[600] text-start">
+                      {val.title}
+                    </p>
+                    <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
+                      <svg
+                        width="8"
+                        height="10"
+                        viewBox="0 0 8 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.34198 10H6.61469C7.16867 10 7.49977 9.69593 7.49977 9.10934V8.96797C7.50533 7.46871 5.90894 6.25197 5.20829 5.58937C5.01274 5.40465 4.90964 5.2364 4.90964 4.99189C4.90964 4.74738 5.01274 4.58445 5.20853 4.39441C5.90361 3.72068 7.5 2.58019 7.5 1.02114V0.890887C7.5 0.30407 7.16867 0 6.61492 0H1.34175C0.798656 0 0.5 0.30407 0.5 0.841986V1.02114C0.5 2.58019 2.09639 3.72068 2.79703 4.39441C2.99259 4.58445 3.09569 4.74738 3.09569 4.99189C3.09569 5.2364 2.99259 5.40465 2.7968 5.58937C2.09639 6.2522 0.5 7.46894 0.5 8.96797V9.15801C0.5 9.6957 0.798656 10 1.34175 10M1.54263 1.62418H6.46246C6.66867 1.62418 6.70134 1.7871 6.58202 2.00983C6.09314 2.88982 4.44787 4.30194 4.00255 4.30194C3.55723 4.30194 1.91196 2.90048 1.42308 2.00983C1.30375 1.7871 1.33619 1.62418 1.54263 1.62418Z"
+                          fill="#757F90"
+                        />
+                      </svg>
 
-                    <p>{val.date}</p>
+                      <p>{val.date}</p>
+                    </div>
                   </div>
                 </div>
                 <IconChevronRight color="red" />

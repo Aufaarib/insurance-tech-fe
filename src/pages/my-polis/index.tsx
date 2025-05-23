@@ -1,184 +1,8 @@
 import { usePageContext } from "@/components/Contexts/PagesContext";
-import CardContents from "@/components/Shared/CardContent";
-import {
-  IconArrowLeft,
-  IconChevronDown,
-  IconChevronRight,
-} from "@tabler/icons-react";
-import Image from "next/image";
+import { IconChevronDown } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { title } from "process";
-import { ReactNode, useEffect, useState } from "react";
-
-const PolisCard = ({ onClick }: { onClick: any }) => {
-  return (
-    <div className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full">
-      {/* card polis status */}
-      <button
-        onClick={() => onClick()}
-        className="flex flex-row gap-[12px] w-full items-center justify-between rounded-[12px]"
-      >
-        <div className="flex flex-row items-center justify-center gap-[8px]">
-          <Image
-            src="/icons/polis-category.png"
-            alt="polis-category"
-            className="w-[40px]"
-            width={100}
-            height={100}
-            unoptimized
-          />
-          <div className="flex flex-col gap-[4px]">
-            <Image
-              src="/icons/Allianz.png"
-              alt="brand"
-              className="w-[40px]"
-              width={100}
-              height={100}
-              unoptimized
-            />
-            <p className="text-[#181C21] text-[12px] font-[600] text-start">
-              Proteksi dari Kerugian Serangan Hacker
-            </p>
-            {/* <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
-            <svg
-              width="8"
-              height="10"
-              viewBox="0 0 8 10"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1.34198 10H6.61469C7.16867 10 7.49977 9.69593 7.49977 9.10934V8.96797C7.50533 7.46871 5.90894 6.25197 5.20829 5.58937C5.01274 5.40465 4.90964 5.2364 4.90964 4.99189C4.90964 4.74738 5.01274 4.58445 5.20853 4.39441C5.90361 3.72068 7.5 2.58019 7.5 1.02114V0.890887C7.5 0.30407 7.16867 0 6.61492 0H1.34175C0.798656 0 0.5 0.30407 0.5 0.841986V1.02114C0.5 2.58019 2.09639 3.72068 2.79703 4.39441C2.99259 4.58445 3.09569 4.74738 3.09569 4.99189C3.09569 5.2364 2.99259 5.40465 2.7968 5.58937C2.09639 6.2522 0.5 7.46894 0.5 8.96797V9.15801C0.5 9.6957 0.798656 10 1.34175 10M1.54263 1.62418H6.46246C6.66867 1.62418 6.70134 1.7871 6.58202 2.00983C6.09314 2.88982 4.44787 4.30194 4.00255 4.30194C3.55723 4.30194 1.91196 2.90048 1.42308 2.00983C1.30375 1.7871 1.33619 1.62418 1.54263 1.62418Z"
-                fill="#757F90"
-              />
-            </svg>
-
-            <p>31 Jan 2025</p>
-          </div> */}
-          </div>
-        </div>
-        <IconChevronRight color="red" />
-      </button>
-      {/*  */}
-
-      <div className="py-[6px] border-y-[2px] border-[#EFF1F4]">
-        <CardContents>
-          <>
-            <p>Status Polis</p>
-            <p className="px-[8px] py-[4px] bg-[#008E53] text-white text-[10px] font-[600] poppins-font rounded-[4px]">
-              Polis Aktif
-            </p>
-          </>
-        </CardContents>
-      </div>
-
-      <CardContents
-        title="Periode Proteksi"
-        value="25 Jan 2025 - 31 Jan 2025"
-      />
-      <CardContents title="ID Polis" value="IGL/T-001/01/2025" />
-
-      <div className="flex flex-row gap-[8px] w-full text-[12px] font-[600]">
-        <button className="px-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full">
-          Lihat E-Polis
-        </button>
-        <button className="px-[16px] py-[12px] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
-          Klaim Polis
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const KlaimCard = ({
-  key,
-  onClick,
-  title,
-  brand,
-  polis_category,
-  status_polis,
-  status_klaim,
-}: // id_klaim,
-// date_klaim,
-{
-  key: number;
-  onClick: any;
-  title: string;
-  brand: string;
-  polis_category: string;
-  status_polis: string;
-  status_klaim: string;
-}) => {
-  return (
-    <div
-      key={key}
-      className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full"
-    >
-      {/* card polis status */}
-      <button
-        onClick={() => onClick()}
-        className="flex flex-row gap-[12px] w-full items-center justify-between rounded-[12px]"
-      >
-        <div className="flex flex-row items-center justify-center gap-[8px]">
-          <Image
-            src={polis_category}
-            alt="polis-category"
-            className="w-[40px]"
-            width={100}
-            height={100}
-            unoptimized
-          />
-          <div className="flex flex-col gap-[4px]">
-            <Image
-              src={brand}
-              alt="brand"
-              className="w-[40px]"
-              width={100}
-              height={100}
-              unoptimized
-            />
-            <p className="text-[#181C21] text-[12px] font-[600] text-start">
-              {title}
-            </p>
-          </div>
-        </div>
-        <IconChevronRight color="red" />
-      </button>
-      {/*  */}
-
-      <div className="flex flex-col gap-[8px] py-[6px] border-y-[2px] border-[#EFF1F4]">
-        <CardContents>
-          <>
-            <p>Status Polis</p>
-            <p className="px-[8px] py-[4px] bg-[#008E53] text-white text-[10px] font-[600] poppins-font rounded-[4px]">
-              {status_polis}
-            </p>
-          </>
-        </CardContents>
-        <CardContents>
-          <>
-            <p>Status Klaim</p>
-            <p className="px-[8px] py-[4px] bg-[#E9F6FF] text-[#0050AE] text-[10px] font-[600] poppins-font rounded-[4px]">
-              {status_klaim}
-            </p>
-          </>
-        </CardContents>
-      </div>
-
-      <CardContents
-        title="Periode Proteksi"
-        value="25 Jan 2025 - 31 Jan 2025"
-      />
-      <CardContents title="ID Polis" value="IGL/T-001/01/2025" />
-      <CardContents title="Tanggal Klaim" value="28 Jan 2025" />
-      <CardContents title="ID Klaim" value="7697679898887" />
-
-      <button className="px-[16px] py-[12px] text-[12px] font-[600] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
-        Lihat Detail
-      </button>
-    </div>
-  );
-};
+import { useEffect, useState } from "react";
+import Card from "./Cards";
 
 const MyPolisPage = () => {
   const router = useRouter();
@@ -193,59 +17,141 @@ const MyPolisPage = () => {
     setPageTitle("Polis Saya");
   }, []);
 
+  const polises = [
+    {
+      title: "Proteksi dari Kerugian Serangan Hacker",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/serangan-hacker.png",
+      status_polis: "Aktif",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi Layar Handphone",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/proteksi-layar.png",
+      status_polis: "Kedaluwarsa",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+    {
+      title: "Proteksi Pencurian & Kehilangan Handphone",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/pencurian-kehilangan.png",
+      status_polis: "Kedaluwarsa",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+    {
+      title: "Proteksi Kecelakaan Bepergian",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
+      status_polis: "Aktif",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+    {
+      title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/property-umum.png",
+      status_polis: "Aktif",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+    {
+      title: "Proteksi Terhadap Cuaca Buruk",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/cuaca-buruk.png",
+      status_polis: "Aktif",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+    {
+      title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
+      status_polis: "Aktif",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      id_polis: "IGL/T-001/01/2024",
+    },
+  ];
+
   const claimpolises = [
     {
       title: "Proteksi dari Kerugian Serangan Hacker",
       brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
+      polis_category: "/icons/polis-category/serangan-hacker.png",
       status_polis: "Aktif",
       status_klaim: "Diproses",
       periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
       id_polis: "IGL/T-001/01/2025",
     },
     {
-      title: "Proteksi dari Kerugian Serangan Hacker",
+      title: "Proteksi Layar Handphone",
       brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
-      status_polis: "Aktif",
-      status_klaim: "Ditolak",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi dari Kerugian Serangan Hacker",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
+      polis_category: "/icons/polis-category/proteksi-layar.png",
       status_polis: "Aktif",
       status_klaim: "Butuh Tindakan",
       periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
       id_polis: "IGL/T-001/01/2025",
     },
     {
-      title: "Proteksi dari Kerugian Serangan Hacker",
+      title: "Proteksi Pencurian & Kehilangan Handphone",
       brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
+      polis_category: "/icons/polis-category/pencurian-kehilangan.png",
       status_polis: "Aktif",
-      status_klaim: "Klaim Disetujui",
+      status_klaim: "Disetujui",
       periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
       id_polis: "IGL/T-001/01/2025",
     },
     {
-      title: "Proteksi dari Kerugian Serangan Hacker",
+      title: "Proteksi Kecelakaan Bepergian",
       brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
+      polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
       status_polis: "Aktif",
       status_klaim: "Dibayarkan",
       periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
       id_polis: "IGL/T-001/01/2025",
     },
     {
-      title: "Proteksi dari Kerugian Serangan Hacker",
+      title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
       brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category.png",
-      status_polis: "Polis Kedaluwarsa",
-      status_klaim: "Klaim Kedaluwarsa",
+      polis_category: "/icons/polis-category/property-umum.png",
+      status_polis: "Aktif",
+      status_klaim: "Ditolak",
       periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi Terhadap Cuaca Buruk",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/cuaca-buruk.png",
+      status_polis: "Kedaluwarsa",
+      status_klaim: "Kedaluwarsa",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
+      id_polis: "IGL/T-001/01/2025",
+    },
+    {
+      title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
+      brand: "/icons/Allianz.png",
+      polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
+      status_polis: "Aktif",
+      status_klaim: "Kedaluwarsa",
+      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+      date_klaim: "28 Jan 2025",
+      id_klaim: "7697679898887",
       id_polis: "IGL/T-001/01/2025",
     },
   ];
@@ -296,22 +202,35 @@ const MyPolisPage = () => {
       </div>
 
       {/* body */}
-      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[250px]">
-        {category === "Klaim" ? (
-          claimpolises.map((val: any, index: number) => (
-            <KlaimCard
-              key={index}
-              title={val.title}
-              brand={val.brand}
-              polis_category={val.polis_category}
-              status_klaim={val.status_klaim}
-              status_polis={val.status_polis}
-              onClick={() => router.push("/detail-polis")}
-            />
-          ))
-        ) : (
-          <PolisCard onClick={() => router.push("/detail-polis")} />
-        )}
+      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[60%]">
+        {category === "Klaim"
+          ? claimpolises.map((val: any, index: number) => (
+              <Card
+                key={index}
+                title={val.title}
+                brand={val.brand}
+                id_polis={val.id_polis}
+                polis_category={val.polis_category}
+                periode_proteksi={val.periode_proteksi}
+                status_klaim={val.status_klaim}
+                id_klaim={val.id_klaim}
+                date_klaim={val.date_klaim}
+                status_polis={val.status_polis}
+                onClick={() => router.push("/detail-polis")}
+              />
+            ))
+          : polises.map((val: any, index: number) => (
+              <Card
+                key={index}
+                title={val.title}
+                brand={val.brand}
+                polis_category={val.polis_category}
+                id_polis={val.id_polis}
+                periode_proteksi={val.periode_proteksi}
+                status_polis={val.status_polis}
+                onClick={() => router.push("/detail-polis")}
+              />
+            ))}
       </div>
     </div>
   );
