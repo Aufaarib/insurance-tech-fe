@@ -10,7 +10,7 @@ const closeModal = () => {
 
 const SwalContent = ({ category }: { category: string }) => {
   return (
-    <div className="h-screen flex flex-col items-end justify-end gap-[12px]">
+    <div className="h-[100dvh] flex flex-col items-end justify-end gap-[12px]">
       <button onClick={() => closeModal()} className="pr-[14px]">
         <svg
           width="32"
