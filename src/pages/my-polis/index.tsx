@@ -3,11 +3,14 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Card from "./Cards";
+import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
 
 const MyPolisPage = () => {
   const router = useRouter();
   const [category, setCategory] = useState("Polis");
   const { pageTitle, setPageTitle } = usePageContext();
+
+  const { openPolisCategoryModal, closeModal } = PolisCategoryModal();
 
   const onChangeCategory = (name: string) => {
     setCategory(name);
@@ -16,6 +19,10 @@ const MyPolisPage = () => {
   useEffect(() => {
     setPageTitle("Polis Saya");
   }, []);
+
+  const handleOpenFilterModal = () => {
+    openPolisCategoryModal(category);
+  };
 
   const polises = [
     {
@@ -178,8 +185,12 @@ const MyPolisPage = () => {
             Klaim
           </button>
         </div>
+
         <div className="flex flex-row w-full gap-[8px]">
-          <button className="flex flex-row justify-between bg-white px-[16px] py-[8px] w-full rounded-full text-[12px] border-[1.5px] border-[#DAE0E9] items-center">
+          <button
+            onClick={() => handleOpenFilterModal()}
+            className="flex flex-row justify-between bg-white px-[16px] py-[8px] w-full rounded-full text-[12px] border-[1.5px] border-[#DAE0E9] items-center"
+          >
             <p>Semua {category}</p>
             <IconChevronDown size={15} />
           </button>

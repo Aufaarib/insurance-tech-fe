@@ -24,7 +24,15 @@ const ManfaatContent = () => {
   );
 };
 
-const CaraKlaimContent = () => {
+const CaraKlaimContent = ({
+  no,
+  tilte,
+  subtitle,
+}: {
+  no: number;
+  tilte: string;
+  subtitle: string;
+}) => {
   return (
     <div className="flex flex-row gap-[8px] items-center justify-start">
       <div
@@ -35,12 +43,12 @@ const CaraKlaimContent = () => {
         className="flex justify-center p-[3px] items-center rounded-full w-[24px] h-[24px]"
       >
         <p className="bg-white text-[12px] font-[600] text-[#FF0025] flex justify-center items-center rounded-full w-full">
-          1
+          {no}
         </p>
       </div>
-      <div className="flex flex-col text-[12px]">
-        <p className="font-[600]">Perlindungan Layar Handphone Pecah</p>
-        <p className="text-[#757F90] font-[400]">Maksimal Rp1.000.000</p>
+      <div className="flex flex-col text-[12px] w-[80%]">
+        <p className="font-[600]">{tilte}</p>
+        <p className="text-[#757F90] font-[400]">{subtitle}</p>
       </div>
     </div>
   );
@@ -72,7 +80,7 @@ const DetailPolis = () => {
         unoptimized
       />
 
-      <div className="flex flex-col p-[18px] w-full absolute h-[100dvh] gap-[12px] pt-[27%] pb-[70%] overflow-auto hidden-scrollbar">
+      <div className="flex flex-col p-[18px] w-full absolute h-[100dvh] gap-[12px] pt-[27%] pb-[65%] overflow-auto hidden-scrollbar">
         <div className="flex w-full flex-col items-start p-[16px] gap-[12px] bg-white rounded-[12px]">
           <div>
             <p className="text-[16px] font-[700] tsel-font">
@@ -139,9 +147,21 @@ const DetailPolis = () => {
             </div>
           ) : category == "Cara Klaim" ? (
             <div className="flex flex-col gap-[16px]">
-              <CaraKlaimContent />
-              <CaraKlaimContent />
-              <CaraKlaimContent />
+              <CaraKlaimContent
+                no={1}
+                tilte="Pilih asuransi"
+                subtitle="Pilih asuransi yang ingin Anda ajukan klaim di bagian 'Asuransi Saya'"
+              />
+              <CaraKlaimContent
+                no={2}
+                tilte="Klaim polis"
+                subtitle="Klik tombol ‘Klaim Polis’ pada halaman asuransi yang telah Anda pilih"
+              />
+              <CaraKlaimContent
+                no={3}
+                tilte="Submit dokumen"
+                subtitle="Siapkan dan submit dokumen untuk proses verifikasi klaim polis Anda."
+              />
             </div>
           ) : (
             <div className="flex flex-col bg-white gap-16px rounded-[12px] gap-[11px] w-full">
