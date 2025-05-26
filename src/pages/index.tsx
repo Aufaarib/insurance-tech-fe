@@ -31,12 +31,12 @@ export default function Home() {
       polis_category: "/icons/polis-category/serangan-hacker.png",
       date: "31 Jan 2025",
     },
-    {
-      title: "Proteksi Layar Handphone",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/proteksi-layar.png",
-      date: "31 Jan 2025",
-    },
+    // {
+    //   title: "Proteksi Layar Handphone",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/proteksi-layar.png",
+    //   date: "31 Jan 2025",
+    // },
   ];
 
   const partners = [
@@ -123,7 +123,10 @@ export default function Home() {
                 />
               </svg>
             </div>
-            <button className="text-[#757F90] text-[12px] font-[400] min-w-fit">
+            <button
+              onClick={() => router.push("/my-polis")}
+              className="text-[#757F90] text-[12px] font-[400] min-w-fit"
+            >
               Lihat Semua
             </button>
           </div>

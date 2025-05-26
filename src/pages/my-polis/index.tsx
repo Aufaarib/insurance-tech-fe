@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Card from "./Cards";
 import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
+import Image from "next/image";
 
 const FilterContent = ({ category }: { category: string }) => {
   const polises =
@@ -111,66 +112,66 @@ const MyPolisPage = () => {
     openPolisCategoryModal(category, <FilterContent category={category} />);
   };
 
-  const polises = [
-    {
-      title: "Proteksi dari Kerugian Serangan Hacker",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/serangan-hacker.png",
-      status_polis: "Aktif",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Layar Handphone",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/proteksi-layar.png",
-      status_polis: "Kedaluwarsa",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
-    {
-      title: "Proteksi Pencurian & Kehilangan Handphone",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/pencurian-kehilangan.png",
-      status_polis: "Kedaluwarsa",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
-    {
-      title: "Proteksi Kecelakaan Bepergian",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
-      status_polis: "Aktif",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
-    {
-      title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/property-umum.png",
-      status_polis: "Aktif",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
-    {
-      title: "Proteksi Terhadap Cuaca Buruk",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/cuaca-buruk.png",
-      status_polis: "Aktif",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
-    {
-      title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
-      brand: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
-      status_polis: "Aktif",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      id_polis: "IGL/T-001/01/2024",
-    },
+  const polises: any = [
+    // {
+    //   title: "Proteksi dari Kerugian Serangan Hacker",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/serangan-hacker.png",
+    //   status_polis: "Aktif",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2025",
+    // },
+    // {
+    //   title: "Proteksi Layar Handphone",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/proteksi-layar.png",
+    //   status_polis: "Kedaluwarsa",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
+    // {
+    //   title: "Proteksi Pencurian & Kehilangan Handphone",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/pencurian-kehilangan.png",
+    //   status_polis: "Kedaluwarsa",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
+    // {
+    //   title: "Proteksi Kecelakaan Bepergian",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
+    //   status_polis: "Aktif",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
+    // {
+    //   title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/property-umum.png",
+    //   status_polis: "Aktif",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
+    // {
+    //   title: "Proteksi Terhadap Cuaca Buruk",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/cuaca-buruk.png",
+    //   status_polis: "Aktif",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
+    // {
+    //   title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
+    //   brand: "/icons/Allianz.png",
+    //   polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
+    //   status_polis: "Aktif",
+    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
+    //   id_polis: "IGL/T-001/01/2024",
+    // },
   ];
 
-  const claimpolises = [
+  const claimpolises: any = [
     {
       title: "Proteksi dari Kerugian Serangan Hacker",
       brand: "/icons/Allianz.png",
@@ -250,6 +251,14 @@ const MyPolisPage = () => {
     },
   ];
 
+  const notfounddata = () => {
+    return category == "Klaim"
+      ? claimpolises.length < 1 && true
+      : category == "Polis"
+      ? polises.length < 1 && true
+      : "";
+  };
+
   return (
     <div>
       {/* header */}
@@ -273,7 +282,11 @@ const MyPolisPage = () => {
           </button>
         </div>
 
-        <div className="flex flex-row w-full gap-[8px]">
+        <div
+          className={`flex flex-row w-full gap-[8px] ${
+            notfounddata() && "hidden"
+          }`}
+        >
           <button
             onClick={() => handleOpenFilterModal(category)}
             className="flex flex-row justify-between bg-white px-[16px] py-[8px] w-full rounded-full text-[12px] border-[1.5px] border-[#DAE0E9] items-center"
@@ -303,8 +316,8 @@ const MyPolisPage = () => {
       </div>
 
       {/* body */}
-      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[350px]">
-        {category === "Klaim"
+      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[250px]">
+        {!notfounddata() && category === "Klaim"
           ? claimpolises.map((val: any, index: number) => (
               <Card
                 key={index}
@@ -332,6 +345,38 @@ const MyPolisPage = () => {
                 onClick={() => router.push("/detail-polis")}
               />
             ))}
+
+        {notfounddata() && (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-[24px]">
+            <Image
+              src="/icons/empty-data.png"
+              alt="Empty"
+              className="w-[128px]"
+              width={100}
+              height={100}
+              unoptimized
+            />
+            <div className="flex flex-col gap-[8px] items-center text-center w-[327px]">
+              <p className="text-[#000000] text-[16px] font-[600]">
+                {category == "Polis"
+                  ? "Belum ada polis aktif"
+                  : "Belum pernah membuat klaim"}
+              </p>
+              <p className="text-[#757F90] text-[14px]">
+                {category == "Polis"
+                  ? "Beli paket data untuk mengaktifkan polis asuransi kebutuhanmu!"
+                  : "Klaim yang Anda buat untuk setiap polis akan muncul di sini"}
+              </p>
+              <button
+                className={`${
+                  category == "Klaim" && "hidden"
+                } px-[16px] font-[600] text-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-[171px]`}
+              >
+                Beli Paket Data
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

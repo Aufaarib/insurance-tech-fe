@@ -1,15 +1,21 @@
 "use client";
 
 import { usePageContext } from "@/components/Contexts/PagesContext";
+import ErrorConnectionModal from "@/components/Modal/ErrorConnectionModal";
 import MainFooter from "@/components/Shared/MainFooter";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { hiddenFooter, setHiddenFooter } = usePageContext();
   const { pageTitle, setPageTitle } = usePageContext();
+  const { openErrorConnectionModal, closeModal } = ErrorConnectionModal();
+
+  // useEffect(() => {
+  //   openErrorConnectionModal();
+  // }, []);
 
   const onRouteBack = () => {
     if (hiddenFooter) {
