@@ -1,4 +1,5 @@
 import { IconCircleX, IconX } from "@tabler/icons-react";
+import { ReactNode } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -8,7 +9,13 @@ const closeModal = () => {
   Swal.close();
 };
 
-const SwalContent = ({ category }: { category: string }) => {
+const SwalContent = ({
+  category,
+  children,
+}: {
+  category: string;
+  children: ReactNode;
+}) => {
   return (
     <div className="h-[100dvh] flex flex-col items-end justify-end gap-[12px]">
       <button onClick={() => closeModal()} className="pr-[14px]">
@@ -32,10 +39,12 @@ const SwalContent = ({ category }: { category: string }) => {
           />
         </svg>
       </button>
-      <div className="bg-white w-[412px] flex flex-col overflow-hidden rounded-t-[20px] py-[20px] px-[16px]">
+      <div className="bg-white w-[412px] flex flex-col overflow-hidden rounded-t-[20px] py-[20px] px-[16px] gap-[12px]">
         <div className="text-[16px] font-[600] poppins-font text-[#181C21]">
-          Kategori {category}
+          {category !== "Urutkan" && "Kategori"} {category}
         </div>
+
+        <div className="flex">{children}</div>
 
         <button className="px-[16px] text-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full">
           Terapkan
@@ -46,12 +55,12 @@ const SwalContent = ({ category }: { category: string }) => {
 };
 
 const PolisCategoryModal = () => {
-  const openPolisCategoryModal = (category: string) => {
+  const openPolisCategoryModal = (category: string, children: ReactNode) => {
     mySwal.fire({
       animation: false,
       position: "bottom",
       allowOutsideClick: false,
-      html: <SwalContent category={category} />,
+      html: <SwalContent category={category} children={children} />,
       showConfirmButton: false,
       customClass: {
         popup: "p-0",

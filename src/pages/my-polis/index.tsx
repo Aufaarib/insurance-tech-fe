@@ -5,6 +5,93 @@ import { useEffect, useState } from "react";
 import Card from "./Cards";
 import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
 
+const FilterContent = ({ category }: { category: string }) => {
+  const polises =
+    category == "Polis"
+      ? [
+          {
+            title: "Semua Polis",
+            value: "all",
+          },
+          {
+            title: "Aktif",
+            value: "aktif",
+          },
+          {
+            title: "Kedaluwarsa",
+            value: "kedaluwarsa",
+          },
+        ]
+      : category == "Klaim"
+      ? [
+          {
+            title: "Semua Klaim",
+            value: "all",
+          },
+          {
+            title: "Diproses",
+            value: "diproses",
+          },
+          {
+            title: "Butuh Tindakan",
+            value: "need_action",
+          },
+          {
+            title: "Disetujui",
+            value: "disetujui",
+          },
+          {
+            title: "Dibayarkan",
+            value: "dibayarkan",
+          },
+          {
+            title: "Dibayarkan",
+            value: "dibayarkan",
+          },
+          {
+            title: "Ditolak",
+            value: "ditolak",
+          },
+          {
+            title: "Kedaluwarsa",
+            value: "kedaluwarsa",
+          },
+        ]
+      : [
+          {
+            title: "Terbaru",
+            value: "newest",
+          },
+          {
+            title: "Terlama",
+            value: "oldest",
+          },
+        ];
+
+  const [checked, setChecked] = useState(polises[0].value);
+
+  return (
+    <div className="w-full text-[14px] font-[400] justify-center flex flex-col">
+      {polises.map((val: any, index: number) => (
+        <div
+          className={`flex flex-row w-full justify-between py-[18px] ${
+            index + 1 !== polises.length && "border-b-[1.5px] border-[#DAE0E9]"
+          }`}
+        >
+          <p className="text-[#181C21]">{val.title}</p>
+          <input
+            className="cursor-pointer"
+            type="radio"
+            value={val.value}
+            checked={val.value == checked}
+            onChange={() => setChecked(val.value)}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const MyPolisPage = () => {
   const router = useRouter();
   const [category, setCategory] = useState("Polis");
@@ -20,8 +107,8 @@ const MyPolisPage = () => {
     setPageTitle("Polis Saya");
   }, []);
 
-  const handleOpenFilterModal = () => {
-    openPolisCategoryModal(category);
+  const handleOpenFilterModal = (category: any) => {
+    openPolisCategoryModal(category, <FilterContent category={category} />);
   };
 
   const polises = [
@@ -188,14 +275,17 @@ const MyPolisPage = () => {
 
         <div className="flex flex-row w-full gap-[8px]">
           <button
-            onClick={() => handleOpenFilterModal()}
+            onClick={() => handleOpenFilterModal(category)}
             className="flex flex-row justify-between bg-white px-[16px] py-[8px] w-full rounded-full text-[12px] border-[1.5px] border-[#DAE0E9] items-center"
           >
             <p>Semua {category}</p>
             <IconChevronDown size={15} />
           </button>
 
-          <button className="border-[1.5px] border-[#DAE0E9] p-[8px] rounded-full min-w-[38px] flex justify-center items-center">
+          <button
+            onClick={() => handleOpenFilterModal("Urutkan")}
+            className="border-[1.5px] border-[#DAE0E9] p-[8px] rounded-full min-w-[38px] flex justify-center items-center"
+          >
             <svg
               width="12"
               height="12"
