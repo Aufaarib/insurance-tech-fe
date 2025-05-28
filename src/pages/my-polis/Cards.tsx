@@ -3,7 +3,6 @@ import { IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 
 const Card = ({
-  key,
   onClick,
   title,
   brand,
@@ -15,7 +14,6 @@ const Card = ({
   date_klaim,
   id_polis,
 }: {
-  key: number;
   onClick: any;
   title: string;
   brand: string;
@@ -176,10 +174,7 @@ const Card = ({
   };
 
   return (
-    <div
-      key={key}
-      className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full"
-    >
+    <div className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full">
       {/* card polis status */}
       <button
         onClick={() => onClick()}

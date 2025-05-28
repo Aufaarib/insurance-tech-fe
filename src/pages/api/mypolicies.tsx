@@ -1,0 +1,140 @@
+export default async function handler(req: any, res: any) {
+  const { msisdn } = req.query;
+
+  const dummyData = {
+    status: {
+      code: "OK00",
+      message: "SUCCESS",
+    },
+    timestamp: 1748335819831,
+    took: 79,
+    data: {
+      page: 0,
+      size: 3,
+      total: 3,
+      hashNext: false,
+      contents: [
+        {
+          policyId: "1000001",
+          createdAt: "2025-05-27 12:58:52",
+          channelTrxId: "221216142158@221217142158@9811809SMS838718",
+          partnerOrderId: "KLO00025E1LC1184780001",
+          activeSince: "2025-05-27 13:01:01",
+          activeUntil: "2025-06-10 13:01:01",
+          issuedAt: "2025-05-27 13:01:01",
+          endDate: null,
+          state: "Policy Protected",
+          product: {
+            id: 1,
+            bid: "i00001",
+            keyword: "igloo_PSP14DT1_IOD",
+            commercialName: "T1-Phone Screen Protection",
+            productType: "Phone-Screen-Protection",
+            productKey: "PSP",
+            productPlanKey: "igloo_PSP30DT2_IOD",
+            createdAt: "2025-05-22 19:55:47",
+            updatedAt: "2025-05-22 19:55:47",
+            partnerId: "igloo",
+            insuranceName: null,
+            metadata: {
+              iconUrl: "https://",
+              bannerUrl: "",
+              benefit: "",
+            },
+            validityPeriod: 14,
+            active: true,
+          },
+          claims: [],
+          premium: 200,
+          coiNo: "string",
+          coiUrl: "https://",
+          claimed: false,
+        },
+        {
+          policyId: "3000001",
+          createdAt: "2025-05-01 13:01:01",
+          channelTrxId: "221216142158@221217142158@9811809SMS838710",
+          partnerOrderId: "KLO025E1MV1086640001",
+          activeSince: "2025-05-01 13:01:01",
+          activeUntil: "2025-05-31 13:01:01",
+          issuedAt: "2025-05-01 13:01:01",
+          endDate: "2025-05-31 13:01:01",
+          state: "Policy Expired",
+          product: {
+            id: 2,
+            bid: "i00002",
+            keyword: "igloo_PSP30DT2_IOD",
+            commercialName: "T2-Phone Screen Protection",
+            productType: "Phone-Screen-Protection",
+            productKey: "PSP",
+            productPlanKey: "igloo_PSP30DT2_IOD",
+            createdAt: "2025-05-22 21:18:37",
+            updatedAt: "2025-05-22 21:18:37",
+            partnerId: "igloo",
+            insuranceName: null,
+            metadata: null,
+            validityPeriod: 30,
+            active: true,
+          },
+          claims: [],
+          premium: 600,
+          coiNo: "string",
+          coiUrl: "https://",
+          claimed: false,
+        },
+        {
+          policyId: "5000001",
+          createdAt: "2025-05-01 13:01:01",
+          channelTrxId: "221216142158@221217142158@9811809SMS838210",
+          partnerOrderId: "KLO025E1OO5214020001",
+          activeSince: "2025-05-01 13:01:01",
+          activeUntil: "2025-05-31 13:01:01",
+          issuedAt: "2025-05-01 13:01:01",
+          endDate: "2025-05-27 15:42:33",
+          state: "Policy End",
+          product: {
+            id: 2,
+            bid: "i00002",
+            keyword: "igloo_PSP30DT2_IOD",
+            commercialName: "T2-Phone Screen Protection",
+            productType: "Phone-Screen-Protection",
+            productKey: "PSP",
+            productPlanKey: "igloo_PSP30DT2_IOD",
+            createdAt: "2025-05-22 21:18:37",
+            updatedAt: "2025-05-22 21:18:37",
+            partnerId: "igloo",
+            insuranceName: null,
+            metadata: null,
+            validityPeriod: 30,
+            active: true,
+          },
+          claims: [
+            {
+              claimId: "123456",
+              claimStatus: "Claim Approved",
+              claimDate: "2025-05-17 23:11:06",
+              sla_date: null,
+              pendingReason: null,
+              rejectReason: null,
+              policyId: "5000001",
+            },
+          ],
+          premium: 2000,
+          coiNo: "no",
+          coiUrl: "https://",
+          claimed: true,
+        },
+      ],
+    },
+  };
+
+  if (req.method === "GET") {
+    try {
+      res.status(200).json(dummyData.data);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get data" });
+    }
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
+  }
+}

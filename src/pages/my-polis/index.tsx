@@ -319,31 +319,33 @@ const MyPolisPage = () => {
       <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[70%]">
         {!notfounddata() && category === "Klaim"
           ? claimpolises.map((val: any, index: number) => (
-              <Card
-                key={index}
-                title={val.title}
-                brand={val.brand}
-                id_polis={val.id_polis}
-                polis_category={val.polis_category}
-                periode_proteksi={val.periode_proteksi}
-                status_klaim={val.status_klaim}
-                id_klaim={val.id_klaim}
-                date_klaim={val.date_klaim}
-                status_polis={val.status_polis}
-                onClick={() => router.push("/detail-polis")}
-              />
+              <div key={index}>
+                <Card
+                  title={val.title}
+                  brand={val.brand}
+                  id_polis={val.id_polis}
+                  polis_category={val.polis_category}
+                  periode_proteksi={val.periode_proteksi}
+                  status_klaim={val.status_klaim}
+                  id_klaim={val.id_klaim}
+                  date_klaim={val.date_klaim}
+                  status_polis={val.status_polis}
+                  onClick={() => router.push("/detail-polis")}
+                />
+              </div>
             ))
           : polises.map((val: any, index: number) => (
-              <Card
-                key={index}
-                title={val.title}
-                brand={val.brand}
-                polis_category={val.polis_category}
-                id_polis={val.id_polis}
-                periode_proteksi={val.periode_proteksi}
-                status_polis={val.status_polis}
-                onClick={() => router.push("/detail-polis")}
-              />
+              <div key={index}>
+                <Card
+                  title={val.title}
+                  brand={val.brand}
+                  polis_category={val.polis_category}
+                  id_polis={val.id_polis}
+                  periode_proteksi={val.periode_proteksi}
+                  status_polis={val.status_polis}
+                  onClick={() => router.push("/detail-polis")}
+                />
+              </div>
             ))}
 
         {notfounddata() && (
