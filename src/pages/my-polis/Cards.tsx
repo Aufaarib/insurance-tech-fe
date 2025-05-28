@@ -5,7 +5,7 @@ import Image from "next/image";
 const Card = ({
   onClick,
   title,
-  brand,
+  insurance,
   polis_category,
   periode_proteksi,
   status_polis,
@@ -16,7 +16,7 @@ const Card = ({
 }: {
   onClick: any;
   title: string;
-  brand: string;
+  insurance: string;
   polis_category: string;
   periode_proteksi: string;
   status_polis: string;
@@ -150,9 +150,9 @@ const Card = ({
   };
 
   const PolisStatusClustering = (status: string) => {
-    if (status == "Aktif") {
+    if (status) {
       return "bg-[#008E53]";
-    } else if (status == "Kedaluwarsa") {
+    } else {
       return "bg-[#9CA9B9]";
     }
   };
@@ -182,7 +182,7 @@ const Card = ({
       >
         <div className="flex flex-row items-center justify-center gap-[8px]">
           <Image
-            src={polis_category}
+            src={polis_category || ""}
             alt="polis-category"
             className="w-[40px]"
             width={100}
@@ -191,8 +191,8 @@ const Card = ({
           />
           <div className="flex flex-col gap-[4px]">
             <Image
-              src={brand}
-              alt="brand"
+              src={insurance || ""}
+              alt="insurance"
               className="w-[40px]"
               width={100}
               height={100}
@@ -216,7 +216,7 @@ const Card = ({
                 status_polis
               )} text-[10px] font-[600] poppins-font rounded-[4px]`}
             >
-              Polis {status_polis}
+              Polis {status_polis ? "Aktif" : "Kedaluwarsa"}
             </p>
           </>
         </CardContents>

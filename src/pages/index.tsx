@@ -189,7 +189,7 @@ export default function Home() {
                   <div className="flex flex-col gap-[4px] items-start justify-start">
                     <Image
                       src={
-                        data.latestPolicy?.product.metadata.providerIcon || ""
+                        data.latestPolicy?.product.metadata.insuranceIcon || ""
                       }
                       alt="brand"
                       className="w-[40px]"
@@ -198,7 +198,7 @@ export default function Home() {
                       unoptimized
                     />
                     <p className="text-[#181C21] text-[12px] font-[600] text-start">
-                      {data.latestPolicy?.product.insuranceName}
+                      {data.latestPolicy?.product.commercialName}
                     </p>
                     <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
                       <svg
