@@ -169,7 +169,7 @@ const Card = ({
     } else if (status === "Kedaluwarsa") {
       return "text-[#9CA9B9] bg-[#DAE0E9]";
     } else {
-      return "text-white bg-white";
+      return "text-white bg-gray";
     }
   };
 

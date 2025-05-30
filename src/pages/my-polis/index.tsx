@@ -8,7 +8,23 @@ import Image from "next/image";
 import axios from "axios";
 import moment from "moment";
 
-const FilterContent = ({ category }: { category: string }) => {
+const FilterContent = ({
+  category,
+  checked,
+  setChecked,
+}: {
+  category: string;
+  checked: any;
+  setChecked: any;
+}) => {
+  const [selected, setSelected] = useState(checked);
+
+  console.log(selected);
+
+  const handleClickApply = () => {
+    setChecked(selected); // Sends the latest value
+  };
+
   const polises =
     category == "Polis"
       ? [
@@ -18,11 +34,11 @@ const FilterContent = ({ category }: { category: string }) => {
           },
           {
             title: "Aktif",
-            value: "aktif",
+            value: true,
           },
           {
             title: "Kedaluwarsa",
-            value: "kedaluwarsa",
+            value: false,
           },
         ]
       : category == "Klaim"
@@ -37,15 +53,11 @@ const FilterContent = ({ category }: { category: string }) => {
           },
           {
             title: "Butuh Tindakan",
-            value: "need_action",
+            value: "butuh tindakan",
           },
           {
             title: "Disetujui",
             value: "disetujui",
-          },
-          {
-            title: "Dibayarkan",
-            value: "dibayarkan",
           },
           {
             title: "Dibayarkan",
@@ -71,26 +83,34 @@ const FilterContent = ({ category }: { category: string }) => {
           },
         ];
 
-  const [checked, setChecked] = useState(polises[0].value);
-
   return (
-    <div className="w-full text-[14px] font-[400] justify-center flex flex-col">
-      {polises.map((val: any, index: number) => (
-        <div
-          className={`flex flex-row w-full justify-between py-[18px] ${
-            index + 1 !== polises.length && "border-b-[1.5px] border-[#DAE0E9]"
-          }`}
-        >
-          <p className="text-[#181C21]">{val.title}</p>
-          <input
-            className="cursor-pointer"
-            type="radio"
-            value={val.value}
-            checked={val.value == checked}
-            onChange={() => setChecked(val.value)}
-          />
-        </div>
-      ))}
+    <div className="w-full text-[14px] font-[400] justify-center flex flex-col gap-[12px]">
+      <div>
+        {polises.map((val: any, index: number) => (
+          <div
+            key={index}
+            className={`flex flex-row w-full justify-between py-[18px] ${
+              index + 1 !== polises.length &&
+              "border-b-[1.5px] border-[#DAE0E9]"
+            }`}
+          >
+            <p className="text-[#181C21]">{val.title}</p>
+            <input
+              className="cursor-pointer"
+              type="radio"
+              value={val.value}
+              checked={val.value == selected}
+              onChange={() => setSelected(val.value)}
+            />
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={() => handleClickApply()}
+        className="px-[16px] text-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full"
+      >
+        Terapkan
+      </button>
     </div>
   );
 };
@@ -98,14 +118,22 @@ const FilterContent = ({ category }: { category: string }) => {
 const MyPolisPage = () => {
   const router = useRouter();
   const [category, setCategory] = useState("Polis");
-  const { pageTitle, setPageTitle } = usePageContext();
+  const [sortBy, setSortBy] = useState("newest");
+
   const [data, setData] = useState<any[]>([]);
 
-  console.log(data);
+  const [polises, setPolises] = useState<any[]>([]);
+  const [claimed, setClaimed] = useState<any[]>([]);
 
+  const [checked, setChecked] = useState("all");
+
+  const { pageTitle, setPageTitle } = usePageContext();
   const { openPolisCategoryModal, closeModal } = PolisCategoryModal();
 
   const onChangeCategory = (name: string) => {
+    setChecked("all");
+    setPolises(data.filter((val: any) => !val.claimed));
+    setClaimed(data.filter((val: any) => val.claimed));
     setCategory(name);
   };
 
@@ -121,154 +149,52 @@ const MyPolisPage = () => {
       });
   }, []);
 
-  const handleOpenFilterModal = (category: any) => {
-    openPolisCategoryModal(category, <FilterContent category={category} />);
+  useEffect(() => {
+    setPolises(data.filter((val: any) => !val.claimed));
+    setClaimed(data.filter((val: any) => val.claimed));
+  }, [data]);
+
+  const handleApplyFilter = (selected: string) => {
+    setChecked(selected);
+    if (category == "Polis") {
+      setPolises(
+        selected !== "all"
+          ? data.filter((val) => selected == val.product.active && !val.claimed)
+          : data.filter((val) => !val.claimed)
+      );
+    } else if (category == "Klaim") {
+      setClaimed(
+        selected !== "all"
+          ? data.filter(
+              (val) =>
+                selected
+                  .toLowerCase()
+                  .includes(val.claims[0]?.claimStatus.toLowerCase()) &&
+                val.claimed
+            )
+          : data.filter((val) => val.claimed)
+      );
+    }
+
+    closeModal();
   };
 
-  const polises: any = [
-    // {
-    //   title: "Proteksi dari Kerugian Serangan Hacker",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/serangan-hacker.png",
-    //   status_polis: "Aktif",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2025",
-    // },
-    // {
-    //   title: "Proteksi Layar Handphone",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/proteksi-layar.png",
-    //   status_polis: "Kedaluwarsa",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-    // {
-    //   title: "Proteksi Pencurian & Kehilangan Handphone",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/pencurian-kehilangan.png",
-    //   status_polis: "Kedaluwarsa",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-    // {
-    //   title: "Proteksi Kecelakaan Bepergian",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
-    //   status_polis: "Aktif",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-    // {
-    //   title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/property-umum.png",
-    //   status_polis: "Aktif",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-    // {
-    //   title: "Proteksi Terhadap Cuaca Buruk",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/cuaca-buruk.png",
-    //   status_polis: "Aktif",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-    // {
-    //   title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
-    //   insurance: "/icons/Allianz.png",
-    //   polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
-    //   status_polis: "Aktif",
-    //   periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-    //   id_polis: "IGL/T-001/01/2024",
-    // },
-  ];
-
-  const claimpolises: any = [
-    {
-      title: "Proteksi dari Kerugian Serangan Hacker",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/serangan-hacker.png",
-      status_polis: "Aktif",
-      status_klaim: "Diproses",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Layar Handphone",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/proteksi-layar.png",
-      status_polis: "Aktif",
-      status_klaim: "Butuh Tindakan",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Pencurian & Kehilangan Handphone",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/pencurian-kehilangan.png",
-      status_polis: "Aktif",
-      status_klaim: "Disetujui",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Kecelakaan Bepergian",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/kecelakaan-bepergian.png",
-      status_polis: "Aktif",
-      status_klaim: "Dibayarkan",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Kerusakan Properti & Kecelakaan Umum",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/property-umum.png",
-      status_polis: "Aktif",
-      status_klaim: "Ditolak",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Terhadap Cuaca Buruk",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/cuaca-buruk.png",
-      status_polis: "Kedaluwarsa",
-      status_klaim: "Kedaluwarsa",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-    {
-      title: "Proteksi Pelunasan Tagihan SmartPay & Paket Darurat ",
-      insurance: "/icons/Allianz.png",
-      polis_category: "/icons/polis-category/tagihan-paketdarurat.png",
-      status_polis: "Aktif",
-      status_klaim: "Kedaluwarsa",
-      periode_proteksi: "25 Jan 2025 - 31 Jan 2025",
-      date_klaim: "28 Jan 2025",
-      id_klaim: "7697679898887",
-      id_polis: "IGL/T-001/01/2025",
-    },
-  ];
+  const handleOpenFilterModal = (category: any) => {
+    openPolisCategoryModal(
+      category,
+      <FilterContent
+        category={category}
+        setChecked={handleApplyFilter}
+        checked={checked}
+      />
+    );
+  };
 
   const notfounddata = () => {
     return category == "Klaim"
-      ? claimpolises.length < 1 && true
+      ? claimed.length < 1 && true
       : category == "Polis"
-      ? data.length < 1 && true
+      ? polises.length < 1 && true
       : "";
   };
 
@@ -295,16 +221,20 @@ const MyPolisPage = () => {
           </button>
         </div>
 
-        <div
-          className={`flex flex-row w-full gap-[8px] ${
-            notfounddata() && "hidden"
-          }`}
-        >
+        <div className={`flex flex-row w-full gap-[8px]`}>
           <button
             onClick={() => handleOpenFilterModal(category)}
             className="flex flex-row justify-between bg-white px-[16px] py-[8px] w-full rounded-full text-[12px] border-[1.5px] border-[#DAE0E9] items-center"
           >
-            <p>Semua {category}</p>
+            <p className="capitalize">
+              {checked == "all"
+                ? `Semua ${category}`
+                : category == "Polis" && checked
+                ? "Aktif"
+                : category == "Polis" && !checked
+                ? "Kedaluwarsa"
+                : category == "Klaim" && checked}
+            </p>
             <IconChevronDown size={15} />
           </button>
 
@@ -331,23 +261,31 @@ const MyPolisPage = () => {
       {/* body */}
       <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[70%]">
         {!notfounddata() && category === "Klaim"
-          ? claimpolises.map((val: any, index: number) => (
+          ? claimed.map((val: any, index: number) => (
               <div key={index}>
                 <Card
-                  title={val.title}
-                  insurance={val.insurance}
-                  id_polis={val.id_polis}
-                  polis_category={val.polis_category}
-                  periode_proteksi={val.periode_proteksi}
-                  status_klaim={val.status_klaim}
-                  id_klaim={val.id_klaim}
-                  date_klaim={val.date_klaim}
-                  status_polis={val.status_polis}
+                  title={val.product.commercialName}
+                  insurance={val.product.metadata.insuranceIcon}
+                  polis_category={val.product.metadata.iconUrl}
+                  id_polis={val.policyId}
+                  periode_proteksi={
+                    moment(val.activeSince).format("DD MMM YYYY") +
+                    " - " +
+                    moment(val.activeUntil).format("DD MMM YYYY")
+                  }
+                  status_polis={val.product.active}
                   onClick={() => router.push("/detail-polis")}
+                  status_klaim={val.claims[0].claimStatus}
+                  id_klaim={val.claims[0].claimId}
+                  date_klaim={moment(val.claims[0].claimDate).format(
+                    "DD MMM YYYY"
+                  )}
                 />
               </div>
             ))
-          : data.map((val: any, index: number) => (
+          : !notfounddata() &&
+            category === "Polis" &&
+            polises.map((val: any, index: number) => (
               <div key={index}>
                 <Card
                   title={val.product.commercialName}
