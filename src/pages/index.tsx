@@ -141,187 +141,185 @@ export default function Home() {
         priority
       />
       {/* content parent */}
-      {data && (
-        <div className="flex flex-col p-[18px] w-full absolute top-[220px] gap-[24px] pb-[90px]">
-          {/* content */}
-          <div className="flex w-full flex-col items-center justify-center p-[16px] gap-[12px] bg-white rounded-[12px]">
-            {loading ? (
-              <MyPolicySkeleton />
-            ) : (
-              <>
-                <div className="flex flex-row w-full justify-between">
-                  <div className="flex flex-row items-center text-center gap-[4px] font-[600] text-[14px] w-full poppins-font">
-                    <p>{data.active} Polis</p>
-                    <p className="text-[#008E53]">Aktif</p>
+      <div className="flex flex-col p-[18px] w-full absolute top-[220px] gap-[24px] pb-[90px]">
+        {/* content */}
+        <div className="flex w-full flex-col items-center justify-center p-[16px] gap-[12px] bg-white rounded-[12px]">
+          {loading && !data ? (
+            <MyPolicySkeleton />
+          ) : (
+            <>
+              <div className="flex flex-row w-full justify-between">
+                <div className="flex flex-row items-center text-center gap-[4px] font-[600] text-[14px] w-full poppins-font">
+                  <p>{data.active} Polis</p>
+                  <p className="text-[#008E53]">Aktif</p>
 
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M6.99992 13.6666C10.3131 13.6666 13.6666 10.9999 13.6666 6.99992C13.6666 2.99992 10.3131 0.333252 6.99992 0.333252C3.68672 0.333252 0.333252 2.99992 0.333252 6.99992C0.333252 10.9999 3.68672 13.6666 6.99992 13.6666ZM10.4515 5.62418C10.6858 5.38987 10.6858 5.00997 10.4515 4.77565C10.2171 4.54134 9.83724 4.54134 9.60293 4.77565L6.12719 8.25139L4.42418 6.54838C4.18987 6.31407 3.80997 6.31407 3.57565 6.54838C3.34134 6.7827 3.34134 7.1626 3.57565 7.39691L5.70293 9.52418C5.93724 9.7585 6.31714 9.7585 6.55146 9.52418L10.4515 5.62418Z"
-                        fill="#008E53"
-                      />
-                    </svg>
-                  </div>
-                  <button
-                    onClick={() => router.push("/my-polis")}
-                    className="text-[#757F90] text-[12px] font-[400] min-w-fit"
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Lihat Semua
-                  </button>
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M6.99992 13.6666C10.3131 13.6666 13.6666 10.9999 13.6666 6.99992C13.6666 2.99992 10.3131 0.333252 6.99992 0.333252C3.68672 0.333252 0.333252 2.99992 0.333252 6.99992C0.333252 10.9999 3.68672 13.6666 6.99992 13.6666ZM10.4515 5.62418C10.6858 5.38987 10.6858 5.00997 10.4515 4.77565C10.2171 4.54134 9.83724 4.54134 9.60293 4.77565L6.12719 8.25139L4.42418 6.54838C4.18987 6.31407 3.80997 6.31407 3.57565 6.54838C3.34134 6.7827 3.34134 7.1626 3.57565 7.39691L5.70293 9.52418C5.93724 9.7585 6.31714 9.7585 6.55146 9.52418L10.4515 5.62418Z"
+                      fill="#008E53"
+                    />
+                  </svg>
                 </div>
-                <div className="max-h-[225px] w-full flex flex-col gap-[12px] overflow-auto hidden-scrollbar">
-                  <button
-                    onClick={() => router.push("/my-polis")}
-                    className="flex flex-row w-full items-center justify-between p-[16px] border-[1px] border-[#DAE0E9] rounded-[12px]"
-                  >
-                    <div className="flex flex-row w-full items-center gap-[12px]">
+                <button
+                  onClick={() => router.push("/my-polis")}
+                  className="text-[#757F90] text-[12px] font-[400] min-w-fit"
+                >
+                  Lihat Semua
+                </button>
+              </div>
+              <div className="max-h-[225px] w-full flex flex-col gap-[12px] overflow-auto hidden-scrollbar">
+                <button
+                  onClick={() => router.push("/my-polis")}
+                  className="flex flex-row w-full items-center justify-between p-[16px] border-[1px] border-[#DAE0E9] rounded-[12px]"
+                >
+                  <div className="flex flex-row w-full items-center gap-[12px]">
+                    <Image
+                      src={data.latestPolicy?.product.metadata.iconUrl || ""}
+                      alt="polis-category"
+                      className="w-[40px] h-[40px]"
+                      width={100}
+                      height={100}
+                      unoptimized
+                    />
+                    <div className="flex flex-col gap-[4px] items-start justify-start">
                       <Image
-                        src={data.latestPolicy?.product.metadata.iconUrl || ""}
-                        alt="polis-category"
-                        className="w-[40px] h-[40px]"
+                        src={
+                          data.latestPolicy?.product.metadata.insuranceIcon ||
+                          ""
+                        }
+                        alt="brand"
+                        className="w-[40px]"
                         width={100}
                         height={100}
                         unoptimized
                       />
-                      <div className="flex flex-col gap-[4px] items-start justify-start">
-                        <Image
-                          src={
-                            data.latestPolicy?.product.metadata.insuranceIcon ||
-                            ""
-                          }
-                          alt="brand"
-                          className="w-[40px]"
-                          width={100}
-                          height={100}
-                          unoptimized
-                        />
-                        <p className="text-[#181C21] text-[12px] font-[600] text-start">
-                          {data.latestPolicy?.product.commercialName}
-                        </p>
-                        <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
-                          <svg
-                            width="8"
-                            height="10"
-                            viewBox="0 0 8 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M1.34198 10H6.61469C7.16867 10 7.49977 9.69593 7.49977 9.10934V8.96797C7.50533 7.46871 5.90894 6.25197 5.20829 5.58937C5.01274 5.40465 4.90964 5.2364 4.90964 4.99189C4.90964 4.74738 5.01274 4.58445 5.20853 4.39441C5.90361 3.72068 7.5 2.58019 7.5 1.02114V0.890887C7.5 0.30407 7.16867 0 6.61492 0H1.34175C0.798656 0 0.5 0.30407 0.5 0.841986V1.02114C0.5 2.58019 2.09639 3.72068 2.79703 4.39441C2.99259 4.58445 3.09569 4.74738 3.09569 4.99189C3.09569 5.2364 2.99259 5.40465 2.7968 5.58937C2.09639 6.2522 0.5 7.46894 0.5 8.96797V9.15801C0.5 9.6957 0.798656 10 1.34175 10M1.54263 1.62418H6.46246C6.66867 1.62418 6.70134 1.7871 6.58202 2.00983C6.09314 2.88982 4.44787 4.30194 4.00255 4.30194C3.55723 4.30194 1.91196 2.90048 1.42308 2.00983C1.30375 1.7871 1.33619 1.62418 1.54263 1.62418Z"
-                              fill="#757F90"
-                            />
-                          </svg>
+                      <p className="text-[#181C21] text-[12px] font-[600] text-start">
+                        {data.latestPolicy?.product.commercialName}
+                      </p>
+                      <div className="flex flex-row gap-[6px] items-center text-[12px] font-[400] text-[#757F90]">
+                        <svg
+                          width="8"
+                          height="10"
+                          viewBox="0 0 8 10"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.34198 10H6.61469C7.16867 10 7.49977 9.69593 7.49977 9.10934V8.96797C7.50533 7.46871 5.90894 6.25197 5.20829 5.58937C5.01274 5.40465 4.90964 5.2364 4.90964 4.99189C4.90964 4.74738 5.01274 4.58445 5.20853 4.39441C5.90361 3.72068 7.5 2.58019 7.5 1.02114V0.890887C7.5 0.30407 7.16867 0 6.61492 0H1.34175C0.798656 0 0.5 0.30407 0.5 0.841986V1.02114C0.5 2.58019 2.09639 3.72068 2.79703 4.39441C2.99259 4.58445 3.09569 4.74738 3.09569 4.99189C3.09569 5.2364 2.99259 5.40465 2.7968 5.58937C2.09639 6.2522 0.5 7.46894 0.5 8.96797V9.15801C0.5 9.6957 0.798656 10 1.34175 10M1.54263 1.62418H6.46246C6.66867 1.62418 6.70134 1.7871 6.58202 2.00983C6.09314 2.88982 4.44787 4.30194 4.00255 4.30194C3.55723 4.30194 1.91196 2.90048 1.42308 2.00983C1.30375 1.7871 1.33619 1.62418 1.54263 1.62418Z"
+                            fill="#757F90"
+                          />
+                        </svg>
 
-                          <p>
-                            {moment(data.latestPolicy?.activeUntil).format(
-                              "DD MMM YYYY"
-                            )}
-                          </p>
-                        </div>
+                        <p>
+                          {moment(data.latestPolicy?.activeUntil).format(
+                            "DD MMM YYYY"
+                          )}
+                        </p>
                       </div>
                     </div>
-                    <IconChevronRight color="red" />
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-
-          <BasicCard title="Bekerja Sama Dengan">
-            <div className="bg-[#f7f8fa] flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] pb-2">
-              <div className="bg-white p-[16px] gap-[8px] w-full rounded-[12px]">
-                <div className="grid grid-cols-3 gap-2">
-                  {partners.map((val: any, index: number) => (
-                    <div
-                      key={index}
-                      className="border-[1px] border-[#DAE0E9] w-[98px] rounded-[8px] px-[6px] py-[8px] flex justify-center h-[32px]"
-                    >
-                      <Image
-                        src={val.icon}
-                        alt="insurance-brand"
-                        className="w-auto"
-                        width={100}
-                        height={100}
-                        unoptimized
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <Image
-                src="/icons/solusiutama-logo.png"
-                alt="solusiutama-logo"
-                className="w-[141px]"
-                width={100}
-                height={100}
-                unoptimized
-              />
-            </div>
-          </BasicCard>
-
-          <BasicCard title="Pertanyaan Umum">
-            {faqs.map((val: any, index: number) => (
-              <div
-                key={index}
-                className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]"
-              >
-                <button
-                  onClick={() => toggleItem(index)}
-                  className="flex flex-row w-full justify-between items-center text-start gap-[16px]"
-                >
-                  <p className="font-[400] text-[12px] w-[80%]">{val.title}</p>
-                  {openIndex === index ? (
-                    <IconChevronUp size={20} />
-                  ) : (
-                    <IconChevronDown size={20} />
-                  )}
+                  </div>
+                  <IconChevronRight color="red" />
                 </button>
-
-                {openIndex === index && (
-                  <p className="text-[#757F90] text-[12px] font-[400]">
-                    {val.text}
-                  </p>
-                )}
               </div>
-            ))}
-          </BasicCard>
+            </>
+          )}
+        </div>
 
-          <BasicCard title="Informasi Lainnya">
-            {others.map((val: any, index: number) => (
-              <button
-                key={index}
-                className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]"
-              >
-                <div className="flex flex-row w-full justify-center items-center text-left">
-                  <p className="font-[400] text-[12px]">{val.title}</p>
-                  <IconChevronRight size={20} />
-                </div>
-              </button>
-            ))}
-          </BasicCard>
-
-          <div className="flex flex-col w-full justify-center items-center gap-[4px]">
-            <p className="text-[#757F90] text-[10px]">
-              Seluruh produk asuransi terdaftar dan diawasi oleh
-            </p>
+        <BasicCard title="Bekerja Sama Dengan">
+          <div className="bg-[#f7f8fa] flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] pb-2">
+            <div className="bg-white p-[16px] gap-[8px] w-full rounded-[12px]">
+              <div className="grid grid-cols-3 gap-2">
+                {partners.map((val: any, index: number) => (
+                  <div
+                    key={index}
+                    className="border-[1px] border-[#DAE0E9] w-[98px] rounded-[8px] px-[6px] py-[8px] flex justify-center h-[32px]"
+                  >
+                    <Image
+                      src={val.icon}
+                      alt="insurance-brand"
+                      className="w-auto"
+                      width={100}
+                      height={100}
+                      unoptimized
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
             <Image
-              src="/icons/ojk-logo.png"
-              alt="ojk-logo"
-              className="w-[42px]"
+              src="/icons/solusiutama-logo.png"
+              alt="solusiutama-logo"
+              className="w-[141px]"
               width={100}
               height={100}
               unoptimized
             />
           </div>
+        </BasicCard>
+
+        <BasicCard title="Pertanyaan Umum">
+          {faqs.map((val: any, index: number) => (
+            <div
+              key={index}
+              className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]"
+            >
+              <button
+                onClick={() => toggleItem(index)}
+                className="flex flex-row w-full justify-between items-center text-start gap-[16px]"
+              >
+                <p className="font-[400] text-[12px] w-[80%]">{val.title}</p>
+                {openIndex === index ? (
+                  <IconChevronUp size={20} />
+                ) : (
+                  <IconChevronDown size={20} />
+                )}
+              </button>
+
+              {openIndex === index && (
+                <p className="text-[#757F90] text-[12px] font-[400]">
+                  {val.text}
+                </p>
+              )}
+            </div>
+          ))}
+        </BasicCard>
+
+        <BasicCard title="Informasi Lainnya">
+          {others.map((val: any, index: number) => (
+            <button
+              key={index}
+              className="bg-white flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] p-[16px]"
+            >
+              <div className="flex flex-row w-full justify-center items-center text-left">
+                <p className="font-[400] text-[12px]">{val.title}</p>
+                <IconChevronRight size={20} />
+              </div>
+            </button>
+          ))}
+        </BasicCard>
+
+        <div className="flex flex-col w-full justify-center items-center gap-[4px]">
+          <p className="text-[#757F90] text-[10px]">
+            Seluruh produk asuransi terdaftar dan diawasi oleh
+          </p>
+          <Image
+            src="/icons/ojk-logo.png"
+            alt="ojk-logo"
+            className="w-[42px]"
+            width={100}
+            height={100}
+            unoptimized
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 }
