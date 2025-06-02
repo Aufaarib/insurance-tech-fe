@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="relative w-[327px] h-screen flex flex-col items-center justify-center gap-[24px] bg-[#eff1f4]">
+        <div className="relative w-[327px] h-[100dvh] flex flex-col items-center justify-center gap-[24px] bg-[#eff1f4]">
           <Image
             src="/icons/page-error.png"
             alt="page-error"
