@@ -1,0 +1,70 @@
+export default async function handler(req: any, res: any) {
+  const { msisdn, policy_id } = req.query;
+
+  const dummyData = {
+    status: {
+      code: "OK00",
+      message: "SUCCESS",
+    },
+    timestamp: 1748335819831,
+    took: 79,
+    data: {
+      page: 0,
+      size: 0,
+      total: 0,
+      hashNext: false,
+      contents: [
+        {
+          policyId: "1000001",
+          createdAt: "2025-05-27 12:58:52",
+          channelTrxId: "221216142158@221217142158@9811809SMS838718",
+          partnerOrderId: "KLO00025E1LC1184780001",
+          activeSince: "2025-05-27 13:01:01",
+          activeUntil: "2025-06-10 13:01:01",
+          issuedAt: "2025-05-27 13:01:01",
+          endDate: null,
+          state: "Policy Protected",
+          product: {
+            id: 1,
+            bid: "i00001",
+            keyword: "igloo_PSP14DT1_IOD",
+            commercialName: "Proteksi dari Kerugian Serangan Hacker",
+            productType: "Phone-Screen-Protection",
+            productKey: "PSP",
+            productPlanKey: "igloo_PSP30DT2_IOD",
+            createdAt: "2025-05-22 19:55:47",
+            updatedAt: "2025-05-22 19:55:47",
+            partnerId: "igloo",
+            insuranceName: "allianz",
+            metadata: {
+              iconUrl: "/icons/polis-category/serangan-hacker.png",
+              insuranceIcon: "/icons/Allianz.png",
+              bannerUrl: "",
+              benefits: `<div class="flex flex-row gap-[8px] items-center justify-start"><img src="/icons/circular-percent.png" alt="circular-percent" class="w-[24px]" /><div class="flex flex-col text-[12px]"><p class="font-[600]">Perlindungan Layar Handphone Pecah</p><p class="text-[#757F90] font-[400]">Maksimal Rp1.000.000</p></div></div>`,
+              claimSteps: `<div class="flex flex-row gap-[8px] items-center justify-start"><div class="flex justify-center p-[3px] items-center rounded-full w-[24px] h-[24px] custom-gradient-claim"><p class="bg-white text-[12px] font-[600] text-[#FF0025] flex justify-center items-center rounded-full w-full">1</p></div><div class="flex flex-col text-[12px] w-[80%]"><p class="font-[600]">Pilih asuransi</p><p class="text-[#757F90] font-[400]">Pilih asuransi yang ingin Anda ajukan klaim di bagian 'Asuransi Saya'</p></div></div>`,
+              guaranteeExceptions:
+                "<p>Does not cover <strong>intentional damage</strong> or <em>unreported incidents</em>.</p>",
+            },
+            validityPeriod: 14,
+            active: true,
+          },
+          claims: [],
+          premium: 200,
+          coiNo: "string",
+          coiUrl: "https://",
+          claimed: false,
+        },
+      ],
+    },
+  };
+
+  if (req.method === "GET") {
+    try {
+      res.status(200).json(dummyData.data);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get data" });
+    }
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
+  }
+}

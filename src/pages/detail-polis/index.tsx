@@ -1,6 +1,8 @@
 import { usePageContext } from "@/components/Contexts/PagesContext";
 import CardContents from "@/components/Shared/CardContent";
 import { IconCircleFilled } from "@tabler/icons-react";
+import axios from "axios";
+import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -59,10 +61,19 @@ const DetailPolis = () => {
   const { pageTitle, setPageTitle } = usePageContext();
   const { hiddenFooter, setHiddenFooter } = usePageContext();
   const [category, setCategory] = useState("Status");
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     setPageTitle("Proteksi Layar Handphone");
     setHiddenFooter(true);
+    axios
+      .get(`/api/policy-det?msisdn=6281122331233&policy_id=1233421244`)
+      .then((res) => {
+        setData(res.data.contents[0]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   const onChangeCategory = (name: string) => {
@@ -84,7 +95,7 @@ const DetailPolis = () => {
         <div className="flex w-full flex-col items-start p-[16px] gap-[12px] bg-white rounded-[12px]">
           <div>
             <p className="text-[16px] font-[700] tsel-font">
-              Proteksi Layar Handphone
+              {data?.product.commercialName}
             </p>
             <div className="flex flex-row gap-1 items-center">
               <div className="border-[1px] border-[#DAE0E9] w-[82px] rounded-[4px] p-[6px] flex justify-center">
@@ -98,7 +109,7 @@ const DetailPolis = () => {
                 />
               </div>
               <p className="text-[12px] font-[12px] text-[#9CA9B9]">
-                PT Asuransi Sinar Mas
+                {data?.product.insuranceName}
               </p>
             </div>
           </div>
@@ -141,13 +152,23 @@ const DetailPolis = () => {
 
           {category == "Manfaat" ? (
             <div className="flex flex-col gap-[16px]">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: data?.product.metadata.claimSteps,
+                }}
+              />
+              {/* <ManfaatContent />
               <ManfaatContent />
-              <ManfaatContent />
-              <ManfaatContent />
+              <ManfaatContent /> */}
             </div>
           ) : category == "Cara Klaim" ? (
             <div className="flex flex-col gap-[16px]">
-              <CaraKlaimContent
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: data?.product.metadata.benefits,
+                }}
+              />
+              {/* <CaraKlaimContent
                 no={1}
                 tilte="Pilih asuransi"
                 subtitle="Pilih asuransi yang ingin Anda ajukan klaim di bagian 'Asuransi Saya'"
@@ -161,7 +182,7 @@ const DetailPolis = () => {
                 no={3}
                 tilte="Submit dokumen"
                 subtitle="Siapkan dan submit dokumen untuk proses verifikasi klaim polis Anda."
-              />
+              /> */}
             </div>
           ) : (
             <div className="flex flex-col bg-white gap-16px rounded-[12px] gap-[11px] w-full">
@@ -169,17 +190,23 @@ const DetailPolis = () => {
                 <CardContents>
                   <>
                     <p>Status Polis</p>
-                    <p className="px-[8px] py-[4px] bg-[#008E53] text-white text-[10px] font-[600] rounded-[4px]">
-                      Polis Aktif
+                    <p
+                      className={`px-[8px] py-[4px] ${
+                        data?.product.active ? "bg-[#008E53]" : "bg-[#9CA9B9]"
+                      } text-white text-[10px] font-[600] rounded-[4px]`}
+                    >
+                      Polis {data?.product.active ? "Aktif" : "Kedaluwarsa"}
                     </p>
                   </>
                 </CardContents>
               </div>
               <CardContents
                 title="Periode Proteksi"
-                value="25 Jan 2025 - 31 Jan 2025"
+                value={`${moment(data?.activeSince).format(
+                  "DD MMM YYYY"
+                )} - ${moment(data?.activeUntil).format("DD MMM YYYY")}`}
               />
-              <CardContents title="ID Polis" value="IGL/T-001/01/2025" />
+              <CardContents title="ID Polis" value={data?.policyId} />
             </div>
           )}
 
@@ -200,7 +227,12 @@ const DetailPolis = () => {
             Pengecualian Pertanggungan
           </p>
           <div className="flex flex-col text-[12px] font-[400]">
-            <div className="flex flex-row gap-2">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: data?.product.metadata.guaranteeExceptions,
+              }}
+            />
+            {/* <div className="flex flex-row gap-2">
               <IconCircleFilled size={10} className="mt-[4px]" />
               <p>
                 Kesengajaan atau kelalaian berat dari pengguna, seperti
@@ -213,7 +245,7 @@ const DetailPolis = () => {
                 Kerusakan selain layar, seperti kerusakan bodi, baterai, kamera,
                 atau komponen internal lainnya.
               </p>
-            </div>
+            </div> */}
           </div>
           <a href="/" className="text-[#ED0226] text-[12px] font-[400]">
             Lihat Syarat dan Ketentuan

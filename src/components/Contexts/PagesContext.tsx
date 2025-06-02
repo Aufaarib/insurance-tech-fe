@@ -15,6 +15,8 @@ type PagesContextTypes = {
   setOpenedFooter: any;
   hiddenFooter: boolean;
   setHiddenFooter: any;
+  loading: boolean;
+  setLoading: any;
 };
 
 // Create default value
@@ -26,6 +28,7 @@ export const PageContextProvider = ({ children }: { children: ReactNode }) => {
   const [pageTitle, setPageTitle] = useState("");
   const [hiddenFooter, setHiddenFooter] = useState(false);
   const [openedFooter, setOpenedFooter] = useState(pathname);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setOpenedFooter(pathname);
@@ -40,6 +43,8 @@ export const PageContextProvider = ({ children }: { children: ReactNode }) => {
         setHiddenFooter,
         openedFooter,
         setOpenedFooter,
+        loading,
+        setLoading,
       }}
     >
       {children}
