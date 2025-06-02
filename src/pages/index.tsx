@@ -27,6 +27,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setLoading(true);
     setPageTitle("");
     axios
       .get(`/api/mypolicy-sum`)
