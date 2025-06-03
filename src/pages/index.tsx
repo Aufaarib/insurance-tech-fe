@@ -130,7 +130,7 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col items-center overflow-auto h-[100dvh] hidden-scrollbar">
-      {data && (
+      {!loading && (
         <>
           <p className="absolute left-[16px] top-[16px] text-white text-[16px] font-[400]">
             Asuransi
@@ -150,7 +150,7 @@ export default function Home() {
       <div className="flex flex-col p-[18px] w-full absolute top-[220px] gap-[24px] pb-[90px]">
         {/* content */}
         <div className="relative flex w-full flex-col items-start justify-center p-[16px] gap-[12px] bg-white rounded-[12px]">
-          {loading && !data ? (
+          {loading ? (
             <MyPolicySkeleton />
           ) : data ? (
             <>
@@ -260,8 +260,8 @@ export default function Home() {
           )}
         </div>
 
-        <BasicCard isLoading={loading && !data} title="Bekerja Sama Dengan">
-          {loading && !data ? (
+        <BasicCard isLoading={loading} title="Bekerja Sama Dengan">
+          {loading ? (
             <PartnersCardSkeleton />
           ) : (
             <div className="bg-[#f7f8fa] flex flex-col w-full justify-center items-center gap-[8px] rounded-[12px] pb-2">
@@ -296,8 +296,8 @@ export default function Home() {
           )}
         </BasicCard>
 
-        <BasicCard isLoading={loading && !data} title="Pertanyaan Umum">
-          {loading && !data
+        <BasicCard isLoading={loading} title="Pertanyaan Umum">
+          {loading
             ? [...Array(6)].map((_, index) => (
                 <div key={index}>
                   <FAQSkeleton />
@@ -331,8 +331,8 @@ export default function Home() {
               ))}
         </BasicCard>
 
-        <BasicCard isLoading={loading || !data} title="Informasi Lainnya">
-          {loading || !data ? (
+        <BasicCard isLoading={loading} title="Informasi Lainnya">
+          {loading ? (
             <FAQSkeleton />
           ) : (
             others.map((val: any, index: number) => (

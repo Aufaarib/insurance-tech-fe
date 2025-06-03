@@ -140,6 +140,7 @@ const MyPolisPage = () => {
 
   useEffect(() => {
     setPageTitle("Polis Saya");
+    setLoading(true);
     axios
       .get(`/api/mypolicies`)
       .then((res) => {
