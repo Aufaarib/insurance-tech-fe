@@ -1,19 +1,8 @@
 @import "tailwindcss";
 @tailwind utilities;
 
-.shimmer {
-  width: 350px;
-  height: 100px;
-  border-radius: 10px;
-  background: linear-gradient(
-    to right,
-    #f0f0f0 0%,
-    #d8d8d8 20%,
-    #f0f0f0 40%,
-    #f0f0f0 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+.skeleton {
+  background-color: #ccd1d959;
 }
 
 .custom-gradient-claim {
