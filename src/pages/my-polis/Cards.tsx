@@ -1,6 +1,33 @@
+import { usePageContext } from "@/components/Contexts/PagesContext";
 import CardContents from "@/components/Shared/CardContent";
 import { IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
+
+const Skeleton = () => {
+  return (
+    <div className="flex flex-col gap-[8px]">
+      <div className="w-full flex flex-row items-center gap-[8px]">
+        <div className="skeleton animate-pulse w-[36px] h-[36px]" />
+        <div className="flex flex-col gap-[8px]">
+          <div className="skeleton animate-pulse w-[96px] h-[10px]" />
+          <div className="skeleton animate-pulse w-[180px] h-[16px]" />
+        </div>
+      </div>
+      <div className="flex flex-row justify-between py-[8px] border-y-1 border-[#EFF1F4] items-center">
+        <div className="skeleton animate-pulse w-[86px] h-[16px]" />
+        <div className="skeleton animate-pulse w-[96px] h-[20px]" />
+      </div>
+      <div className="w-full flex flex-row items-center justify-between">
+        <div className="skeleton animate-pulse w-[100px] h-[16px]" />
+        <div className="skeleton animate-pulse w-[150px] h-[16px]" />
+      </div>
+      <div className="w-full flex flex-row items-center justify-between">
+        <div className="skeleton animate-pulse w-[86px] h-[16px]" />
+        <div className="skeleton animate-pulse w-[100px] h-[16px]" />
+      </div>
+    </div>
+  );
+};
 
 const Card = ({
   onClick,
@@ -14,17 +41,18 @@ const Card = ({
   date_klaim,
   id_polis,
 }: {
-  onClick: any;
-  title: string;
-  insurance: string;
-  polis_category: string;
-  periode_proteksi: string;
-  status_polis: string;
+  onClick?: any;
+  title?: string;
+  insurance?: string;
+  polis_category?: string;
+  periode_proteksi?: string;
+  status_polis?: string;
   id_klaim?: string;
   date_klaim?: string;
-  id_polis: string;
+  id_polis?: string;
   status_klaim?: string;
 }) => {
+  const { loading, setLoading } = usePageContext();
   const AdditionalContent = () => {
     if (status_klaim === "Butuh Tindakan") {
       return (
@@ -175,95 +203,101 @@ const Card = ({
 
   return (
     <div className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full">
-      {/* card polis status */}
-      <button
-        onClick={() => onClick()}
-        className="flex flex-row gap-[12px] w-full items-center justify-between rounded-[12px]"
-      >
-        <div className="flex flex-row items-center justify-center gap-[8px]">
-          <Image
-            src={polis_category || ""}
-            alt="polis-category"
-            className="w-[40px]"
-            width={100}
-            height={100}
-            unoptimized
-          />
-          <div className="flex flex-col gap-[4px]">
-            <Image
-              src={insurance || ""}
-              alt="insurance"
-              className="w-[40px]"
-              width={100}
-              height={100}
-              unoptimized
-            />
-            <p className="text-[#181C21] text-[12px] font-[600] text-start">
-              {title}
-            </p>
-          </div>
-        </div>
-        <IconChevronRight color="red" />
-      </button>
-      {/*  */}
-
-      <div className="flex flex-col gap-[8px] py-[6px] border-y-[2px] border-[#EFF1F4]">
-        <CardContents>
-          <>
-            <p>Status Polis</p>
-            <p
-              className={`px-[8px] py-[4px] text-white ${PolisStatusClustering(
-                status_polis
-              )} text-[10px] font-[600] poppins-font rounded-[4px]`}
-            >
-              Polis {status_polis ? "Aktif" : "Kedaluwarsa"}
-            </p>
-          </>
-        </CardContents>
-        {status_klaim && (
-          <CardContents>
-            <>
-              <p>Status Klaim</p>
-              <p
-                className={`px-[8px] py-[4px] ${KlaimStatusClustering(
-                  status_klaim
-                )} text-[10px] font-[600] poppins-font rounded-[4px]`}
-              >
-                {status_klaim}
-              </p>
-            </>
-          </CardContents>
-        )}
-      </div>
-
-      <CardContents title="Periode Proteksi" value={periode_proteksi} />
-      <CardContents title="ID Polis" value={id_polis} />
-
-      {date_klaim && (
-        <>
-          <CardContents title="Tanggal Klaim" value={date_klaim} />
-          <CardContents title="ID Klaim" value={id_klaim} />
-        </>
-      )}
-
-      {date_klaim ? (
-        <>
-          <AdditionalContent />
-          <button className="px-[16px] py-[12px] text-[12px] font-[600] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
-            Lihat Detail
-          </button>
-        </>
+      {loading ? (
+        <Skeleton />
       ) : (
-        status_polis !== "Kedaluwarsa" && (
-          <div className="flex flex-row gap-[8px] w-full text-[12px] font-[600]">
-            <button className="px-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full">
-              Lihat E-Polis
-            </button>
-            <button className="px-[16px] py-[12px] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
-              Klaim Polis
-            </button>
+        <>
+          {/* card polis status */}
+          <button
+            onClick={() => onClick()}
+            className="flex flex-row gap-[12px] w-full items-center justify-between rounded-[12px]"
+          >
+            <div className="flex flex-row items-center justify-center gap-[8px]">
+              <Image
+                src={polis_category || ""}
+                alt="polis-category"
+                className="w-[40px]"
+                width={100}
+                height={100}
+                unoptimized
+              />
+              <div className="flex flex-col gap-[4px]">
+                <Image
+                  src={insurance || ""}
+                  alt="insurance"
+                  className="w-[40px]"
+                  width={100}
+                  height={100}
+                  unoptimized
+                />
+                <p className="text-[#181C21] text-[12px] font-[600] text-start">
+                  {title}
+                </p>
+              </div>
+            </div>
+            <IconChevronRight color="red" />
+          </button>
+          {/*  */}
+
+          <div className="flex flex-col gap-[8px] py-[6px] border-y-[2px] border-[#EFF1F4]">
+            <CardContents>
+              <>
+                <p>Status Polis</p>
+                <p
+                  className={`px-[8px] py-[4px] text-white ${PolisStatusClustering(
+                    status_polis || ""
+                  )} text-[10px] font-[600] poppins-font rounded-[4px]`}
+                >
+                  Polis {status_polis ? "Aktif" : "Kedaluwarsa"}
+                </p>
+              </>
+            </CardContents>
+            {status_klaim && (
+              <CardContents>
+                <>
+                  <p>Status Klaim</p>
+                  <p
+                    className={`px-[8px] py-[4px] ${KlaimStatusClustering(
+                      status_klaim
+                    )} text-[10px] font-[600] poppins-font rounded-[4px]`}
+                  >
+                    {status_klaim}
+                  </p>
+                </>
+              </CardContents>
+            )}
           </div>
-        )
+
+          <CardContents title="Periode Proteksi" value={periode_proteksi} />
+          <CardContents title="ID Polis" value={id_polis} />
+
+          {date_klaim && (
+            <>
+              <CardContents title="Tanggal Klaim" value={date_klaim} />
+              <CardContents title="ID Klaim" value={id_klaim} />
+            </>
+          )}
+
+          {date_klaim ? (
+            <>
+              <AdditionalContent />
+              <button className="px-[16px] py-[12px] text-[12px] font-[600] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
+                Lihat Detail
+              </button>
+            </>
+          ) : (
+            status_polis !== "Kedaluwarsa" && (
+              <div className="flex flex-row gap-[8px] w-full text-[12px] font-[600]">
+                <button className="px-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full">
+                  Lihat E-Polis
+                </button>
+                <button className="px-[16px] py-[12px] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
+                  Klaim Polis
+                </button>
+              </div>
+            )
+          )}
+        </>
       )}
     </div>
   );

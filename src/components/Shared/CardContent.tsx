@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { usePageContext } from "../Contexts/PagesContext";
 
 const CardContents = ({
   children,
