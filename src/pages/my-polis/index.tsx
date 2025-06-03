@@ -117,6 +117,7 @@ const FilterContent = ({
 
 const MyPolisPage = () => {
   const router = useRouter();
+  const { loading, setLoading } = usePageContext();
   const [category, setCategory] = useState("Polis");
   const [sortBy, setSortBy] = useState("newest");
 
@@ -143,9 +144,11 @@ const MyPolisPage = () => {
       .get(`/api/mypolicies`)
       .then((res) => {
         setData(res.data.contents);
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false);
       });
   }, []);
 
@@ -260,7 +263,9 @@ const MyPolisPage = () => {
 
       {/* body */}
       <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[70%]">
-        {!notfounddata() && category === "Klaim"
+        {loading && [...Array(4)].map((_, index) => <Card />)}
+
+        {!loading && category === "Klaim"
           ? claimed.map((val: any, index: number) => (
               <div key={index}>
                 <Card
@@ -283,7 +288,7 @@ const MyPolisPage = () => {
                 />
               </div>
             ))
-          : !notfounddata() &&
+          : !loading &&
             category === "Polis" &&
             polises.map((val: any, index: number) => (
               <div key={index}>
@@ -303,7 +308,7 @@ const MyPolisPage = () => {
               </div>
             ))}
 
-        {notfounddata() && (
+        {!loading && notfounddata() && (
           <div className="w-full h-full flex flex-col items-center justify-center gap-[24px]">
             <Image
               src="/icons/empty-data.png"
