@@ -263,7 +263,7 @@ const MyPolisPage = () => {
       </div>
 
       {/* body */}
-      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[70%]">
+      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[300px]">
         {loading && [...Array(4)].map((_, index) => <Card />)}
 
         {!loading && category === "Klaim"
