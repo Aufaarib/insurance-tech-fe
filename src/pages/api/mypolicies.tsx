@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
       page: 0,
       size: 3,
       total: 3,
-      hashNext: true,
+      hashNext: false,
       contents: [
         {
           policyId: "1000001",
@@ -428,7 +428,7 @@ export default async function handler(req: any, res: any) {
           claims: [
             {
               claimId: "123456",
-              claimStatus: "Dibayarkan",
+              claimStatus: "Kedaluwarsa",
               claimDate: "2025-05-17 23:11:06",
               sla_date: null,
               pendingReason: null,
@@ -569,7 +569,7 @@ export default async function handler(req: any, res: any) {
           claims: [
             {
               claimId: "123456",
-              claimStatus: "Diproses",
+              claimStatus: "Ditolak",
               claimDate: "2025-05-17 23:11:06",
               sla_date: null,
               pendingReason: null,

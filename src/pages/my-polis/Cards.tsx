@@ -267,7 +267,7 @@ const Card = ({
                       status_klaim
                     )} text-[10px] font-[600] poppins-font rounded-[4px]`}
                   >
-                    {status_klaim}
+                    Klaim {status_klaim}
                   </p>
                 </>
               </CardContents>
