@@ -25,8 +25,6 @@ const FilterContent = ({
 }) => {
   const [selected, setSelected] = useState(checked);
 
-  console.log(selected);
-
   const handleClickApply = () => {
     setChecked(selected); // Sends the latest value
   };
@@ -348,7 +346,7 @@ const MyPolisPage = () => {
                     moment(val.activeUntil).format("DD MMM YYYY")
                   }
                   status_polis={val.product.active}
-                  onClick={() => router.push("/detail-polis")}
+                  onClick={() => router.push(`/detail-polis?id=${"5000001"}`)}
                   status_klaim={val.claims[0].claimStatus}
                   id_klaim={val.claims[0].claimId}
                   date_klaim={moment(val.claims[0].claimDate).format(
@@ -372,7 +370,7 @@ const MyPolisPage = () => {
                     moment(val.activeUntil).format("DD MMM YYYY")
                   }
                   status_polis={val.product.active}
-                  onClick={() => router.push("/detail-polis")}
+                  onClick={() => router.push(`/detail-polis?id=${"1000001"}`)}
                 />
               </div>
             ))}
