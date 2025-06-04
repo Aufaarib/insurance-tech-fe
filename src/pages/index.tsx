@@ -14,7 +14,7 @@ import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -66,20 +66,12 @@ export default function Home() {
     //   });
   }, []);
 
-  // const subscribedpolises = [
-  //   {
-  //     title: "Proteksi dari Kerugian Serangan Hacker",
-  //     brand: "/icons/Allianz.png",
-  //     polis_category: "/icons/polis-category/serangan-hacker.png",
-  //     date: "31 Jan 2025",
-  //   },
-  //   // {
-  //   //   title: "Proteksi Layar Handphone",
-  //   //   brand: "/icons/Allianz.png",
-  //   //   polis_category: "/icons/polis-category/proteksi-layar.png",
-  //   //   date: "31 Jan 2025",
-  //   // },
-  // ];
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     console.log(window.REACT_APP_CONFIG?.API_SECRET);
+  //     console.log(window.REACT_APP_CONFIG?.API_KEY);
+  //   }
+  // }, []);
 
   const partners = [
     {

@@ -1,7 +1,13 @@
 import { usePageContext } from "@/components/Contexts/PagesContext";
-import { IconChevronDown } from "@tabler/icons-react";
+import {
+  Icon123,
+  IconArrowUp,
+  IconChevronDown,
+  IconLoader,
+  IconLoader2,
+} from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "./Cards";
 import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
 import Image from "next/image";
@@ -131,6 +137,75 @@ const MyPolisPage = () => {
   const { pageTitle, setPageTitle } = usePageContext();
   const { openPolisCategoryModal, closeModal } = PolisCategoryModal();
 
+  const [page, setPage] = useState(0);
+  const [hasNext, setHasNext] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const fetchData = async (pageToFetch = 0) => {
+    if (isFetching || !hasNext) return;
+    setIsFetching(true);
+
+    try {
+      const res = await axios.get(`/api/mypolicies?page=${pageToFetch}`);
+      const result = res.data;
+      // setData(result.contents);
+      setData((prev: any) => [...prev, ...result?.contents]);
+      setHasNext(result.hashNext);
+      setPage(pageToFetch + 1);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsFetching(false);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const scrollEl = scrollContainerRef.current;
+    if (!scrollEl) return;
+
+    const handleScroll = () => {
+      setIsVisible(scrollEl.scrollTop > 20);
+    };
+
+    scrollEl.addEventListener("scroll", handleScroll);
+
+    return () => {
+      scrollEl.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNext && !isFetching) {
+          fetchData(page);
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (loaderRef.current) observer.observe(loaderRef.current);
+
+    return () => {
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
+    };
+  }, [loaderRef, hasNext, isFetching, page]);
+
+  useEffect(() => {
+    setPageTitle("Polis Saya");
+    setLoading(true);
+    fetchData(page);
+  }, []);
+
   const onChangeCategory = (name: string) => {
     setChecked("all");
     setPolises(data.filter((val: any) => !val.claimed));
@@ -139,23 +214,8 @@ const MyPolisPage = () => {
   };
 
   useEffect(() => {
-    setPageTitle("Polis Saya");
-    setLoading(true);
-    axios
-      .get(`/api/mypolicies`)
-      .then((res) => {
-        setData(res.data.contents);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    setPolises(data.filter((val: any) => !val.claimed));
-    setClaimed(data.filter((val: any) => val.claimed));
+    setPolises(data.filter((val: any) => !val?.claimed));
+    setClaimed(data.filter((val: any) => val?.claimed));
   }, [data]);
 
   const handleApplyFilter = (selected: string) => {
@@ -263,8 +323,16 @@ const MyPolisPage = () => {
       </div>
 
       {/* body */}
-      <div className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto hidden-scrollbar h-screen pb-[300px]">
-        {loading && [...Array(4)].map((_, index) => <Card />)}
+      <div
+        ref={scrollContainerRef}
+        className="w-full p-[16px] flex flex-col gap-[12px] overflow-auto h-screen pb-[300px]"
+      >
+        {loading &&
+          [...Array(4)].map((_, index) => (
+            <div key={index}>
+              <Card />
+            </div>
+          ))}
 
         {!loading && category === "Klaim"
           ? claimed.map((val: any, index: number) => (
@@ -309,6 +377,7 @@ const MyPolisPage = () => {
               </div>
             ))}
 
+        {!loading && <div ref={loaderRef} className="h-[1px]" />}
         {!loading && notfounddata() && (
           <div className="w-full h-full flex flex-col items-center justify-center gap-[24px]">
             <Image
@@ -339,6 +408,23 @@ const MyPolisPage = () => {
               </button>
             </div>
           </div>
+        )}
+
+        {isFetching && (
+          <p className="w-full flex items-center justify-center">
+            <IconLoader className="animate-spin" />
+          </p>
+        )}
+
+        {isVisible && (
+          <button
+            onClick={scrollToTop}
+            title="Scroll to top"
+            aria-label="Scroll to top"
+            className="fixed bottom-[90px] right-6 w-[48px] h-[48px] rounded-full bg-[#001A41] text-white text-lg shadow-md z-50 flex items-center justify-center transition-opacity duration-300"
+          >
+            <IconArrowUp />
+          </button>
         )}
       </div>
     </div>
