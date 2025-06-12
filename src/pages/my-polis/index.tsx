@@ -267,8 +267,13 @@ const MyPolisPage = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasNext && !isFetching) {
-          // fetchData(page, checked, category, sortBy);
+        if (
+          entries[0].isIntersecting &&
+          hasNext &&
+          !isFetching &&
+          !errorFetching
+        ) {
+          fetchData(page, checked, category, sortBy);
         }
       },
       { threshold: 1.0 }
