@@ -9,10 +9,12 @@ import React, {
 
 // Define the shape of the context
 type PagesContextTypes = {
+  errorFetching: boolean;
   pageTitle: string;
   setPageTitle: any;
   openedFooter: string;
   setOpenedFooter: any;
+  setErrorFetching: any;
   hiddenFooter: boolean;
   setHiddenFooter: any;
   loading: boolean;
@@ -29,6 +31,7 @@ export const PageContextProvider = ({ children }: { children: ReactNode }) => {
   const [hiddenFooter, setHiddenFooter] = useState(false);
   const [openedFooter, setOpenedFooter] = useState(pathname);
   const [loading, setLoading] = useState(true);
+  const [errorFetching, setErrorFetching] = useState(false);
 
   useEffect(() => {
     setOpenedFooter(pathname);
@@ -37,6 +40,8 @@ export const PageContextProvider = ({ children }: { children: ReactNode }) => {
   return (
     <PagesContext.Provider
       value={{
+        errorFetching,
+        setErrorFetching,
         pageTitle,
         setPageTitle,
         hiddenFooter,

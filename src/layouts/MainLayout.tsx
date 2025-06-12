@@ -2,6 +2,7 @@
 
 import { usePageContext } from "@/components/Contexts/PagesContext";
 import ErrorConnectionModal from "@/components/Modal/ErrorConnectionModal";
+import ErrorPage from "@/components/Shared/ErrorPage";
 import MainFooter from "@/components/Shared/MainFooter";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { ReactNode, useEffect } from "react";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const { hiddenFooter, setHiddenFooter } = usePageContext();
+  const { hiddenFooter, setHiddenFooter, errorFetching } = usePageContext();
   const { pageTitle, setPageTitle } = usePageContext();
   const { openErrorConnectionModal, closeModal } = ErrorConnectionModal();
 
@@ -28,7 +29,6 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
     <div
       className={`bg-[#eff1f4] w-screen h-screen overflow-hidden md:w-[412px]`}
     >
-      {/* header */}
       <button
         onClick={onRouteBack}
         className={`${
@@ -44,6 +44,12 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       <div className={`${hiddenFooter && "hidden"}`}>
         <MainFooter />
       </div>
+
+      {errorFetching && (
+        <div className="absolute top-0 w-full">
+          <ErrorPage />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,13 @@
+import axios from "axios";
+import { header } from "./header";
+import config from "../../../../config";
+
 export default async function handler(req: any, res: any) {
-  const { msisdn } = req.query;
+  const { API_URL } = config;
+  const { method, query } = req;
+
+  // console.log("API_URL ", API_URL); // Logs the full query object
+  // console.log("Query params:", query); // Logs the full query object
 
   const dummyData = {
     status: {
@@ -206,11 +214,23 @@ export default async function handler(req: any, res: any) {
     },
   };
 
-  if (req.method === "GET") {
+  if (method === "GET") {
     try {
-      res.status(200).json(dummyData.data);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to get data" });
+      const response = await axios.get(`${API_URL}/claim`, {
+        params: {
+          size: query.size,
+          page: query.page,
+          filterPolicy: query.filterPolicy,
+          sort: query.sort,
+        },
+        headers: header(),
+      });
+
+      res.status(200).json(response.data);
+    } catch (error: any) {
+      console.error("API fetch error:", error.message);
+      res.status(200).json(dummyData.data); // or return 500 if you don't want fallback
+      // res.status(500).json({ message: error.message });
     }
   } else {
     res.status(405).json({ message: "Method Not Allowed" });

@@ -9,7 +9,6 @@ export default function Document() {
       <body className="flex justify-center h-[95dvh] overflow-hidden">
         <Main />
         <NextScript />
-        <script src="/config.js" />
       </body>
     </Html>
   );

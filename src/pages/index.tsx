@@ -18,10 +18,12 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const { pageTitle, setPageTitle } = usePageContext();
-  const { loading, setLoading } = usePageContext();
+  const { pageTitle, setPageTitle, loading, setLoading, setErrorFetching } =
+    usePageContext();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [data, setData] = useState<any>(null);
+
+  console.log(data);
 
   const toggleItem = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -31,47 +33,18 @@ export default function Home() {
     setLoading(true);
     setPageTitle("");
     axios
-      .get(`/api/mypolicy-sum`)
+      .get(`/api/app/mypolicy-sum`)
       .then((res) => {
         setData(res.data);
         setLoading(false);
+        setErrorFetching(false);
       })
       .catch((err) => {
+        setErrorFetching(true);
         console.error(err);
         setLoading(false);
       });
-    // axios
-    //   .get(`/api/mypolicies`)
-    //   .then((res) => {
-    //     console.log(res.data.data);
-    //   })
-    //   .catch(() => {
-    //     console.log("aafsf");
-    //   });
-    // axios
-    //   .get(`/api/ucpl-claim`)
-    //   .then((res) => {
-    //     console.log(res.data.data);
-    //   })
-    //   .catch(() => {
-    //     console.log("aafsf");
-    //   });
-    // axios
-    //   .get(`/api/ucpl-policy`)
-    //   .then((res) => {
-    //     console.log(res.data.data);
-    //   })
-    //   .catch(() => {
-    //     console.log("aafsf");
-    //   });
   }, []);
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     console.log(window.REACT_APP_CONFIG?.API_SECRET);
-  //     console.log(window.REACT_APP_CONFIG?.API_KEY);
-  //   }
-  // }, []);
 
   const partners = [
     {

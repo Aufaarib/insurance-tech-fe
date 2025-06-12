@@ -38,11 +38,17 @@ const Skeleton = () => {
 
 const DetailPolis = () => {
   const router = useRouter();
-  const { pageTitle, setPageTitle } = usePageContext();
-  const { hiddenFooter, setHiddenFooter } = usePageContext();
+  const {
+    pageTitle,
+    setPageTitle,
+    hiddenFooter,
+    setHiddenFooter,
+    loading,
+    setLoading,
+    setErrorFetching,
+  } = usePageContext();
   const [category, setCategory] = useState("Status");
   const [data, setData] = useState<any>(null);
-  const { loading, setLoading } = usePageContext();
 
   const params = useSearchParams();
 
@@ -52,14 +58,16 @@ const DetailPolis = () => {
     setHiddenFooter(true);
     if (params.get("id")) {
       axios
-        .get(`/api/policy-det?policy_id=${params.get("id")}`)
+        .get(`/api/app/policy-det?policy_id=${params.get("id")}`)
         .then((res) => {
           setData(res.data.contents[0]);
           setLoading(false);
+          setErrorFetching(false);
         })
         .catch((err) => {
           console.error(err);
           setLoading(false);
+          setErrorFetching(true);
         });
     }
   }, [params.get("id")]);

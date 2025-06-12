@@ -7,6 +7,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Card from "./Cards";
+import config from "../../../config";
+import ErrorPage from "@/components/Shared/ErrorPage";
+import { header } from "../api/app/header";
 
 const FilterContent = ({
   category,
@@ -23,8 +26,8 @@ const FilterContent = ({
     category !== "Urutkan" ? checked : sortBy
   );
 
-  console.log("category", category);
-  console.log("selected", selected);
+  // console.log("category", category);
+  // console.log("selected", selected);
 
   const handleClickApply = () => {
     setChecked(selected); // Sends the latest value
@@ -122,7 +125,16 @@ const FilterContent = ({
 
 const MyPolisPage = () => {
   const router = useRouter();
-  const { loading, setLoading } = usePageContext();
+  const {
+    loading,
+    setLoading,
+    pageTitle,
+    setPageTitle,
+    errorFetching,
+    setErrorFetching,
+  } = usePageContext();
+  // const { pageTitle, setPageTitle } = usePageContext();
+
   const [category, setCategory] = useState("Polis");
   const [sortBy, setSortBy] = useState("newest");
 
@@ -133,7 +145,6 @@ const MyPolisPage = () => {
 
   const [checked, setChecked] = useState("all");
 
-  const { pageTitle, setPageTitle } = usePageContext();
   const { openPolisCategoryModal, closeModal } = PolisCategoryModal();
 
   const [page, setPage] = useState(0);
@@ -156,7 +167,7 @@ const MyPolisPage = () => {
     try {
       if (category == "Polis") {
         const res = await axios.get(
-          `/api/mypolicies?size=10&page=${pageToFetch}&filterPolicy=${
+          `/api/app/mypolicies?size=10&page=${pageToFetch}&filterPolicy=${
             checked !== "all" ? (checked ? "ACTIVE" : "EXPIRED") : "ALL"
           }&sort=activeSince,${sortBy == "newest" ? "asc" : "desc"}`
         );
@@ -166,7 +177,7 @@ const MyPolisPage = () => {
         setPage(pageToFetch + 1);
       } else if (category == "Klaim") {
         const res = await axios.get(
-          `/api/myclaims?size=10&page=${pageToFetch}&filterClaim=${checked.toUpperCase()}&sort=updatedAt,${
+          `/api/app/myclaims?size=10&page=${pageToFetch}&filterClaim=${checked.toUpperCase()}&sort=updatedAt,${
             sortBy == "newest" ? "asc" : "desc"
           }`
         );
@@ -175,7 +186,9 @@ const MyPolisPage = () => {
         setHasNext(result.hashNext);
         setPage(pageToFetch + 1);
       }
+      setErrorFetching(false);
     } catch (err) {
+      setErrorFetching(true);
       console.error(err);
     } finally {
       setIsFetching(false);
@@ -255,7 +268,7 @@ const MyPolisPage = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNext && !isFetching) {
-          fetchData(page, checked, category, sortBy);
+          // fetchData(page, checked, category, sortBy);
         }
       },
       { threshold: 1.0 }
@@ -268,9 +281,32 @@ const MyPolisPage = () => {
     };
   }, [loaderRef, hasNext, isFetching, page]);
 
+  const { API_URL } = config;
+
   useEffect(() => {
     setPageTitle("Polis Saya");
     setLoading(true);
+
+    // try {
+    //   const response = axios.get(`${API_URL}/policy`, {
+    //     params: {
+    //       size: "10",
+    //       page: "0",
+    //       filterPolicy: "ALL",
+    //       sort: "activeSince,asc",
+    //     },
+    //     headers: header(), // <-- Use generated headers here
+    //   });
+
+    //   console.log(response);
+
+    //   // res.status(200).json(response.data);
+    // } catch (error: any) {
+    //   // console.log(response);
+    //   console.error("API fetch error:", error.message);
+    //   // res.status(200).json(dummyData.data); // or return 500 if you don't want fallback
+    //   // res.status(500).json({ message: error.message });
+    // }
   }, []);
 
   return (

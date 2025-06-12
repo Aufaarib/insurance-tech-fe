@@ -55,7 +55,7 @@ const Card = ({
   id_polis?: string;
   status_klaim?: string;
 }) => {
-  const { loading, setLoading } = usePageContext();
+  const { loading, setLoading, setErrorFetching } = usePageContext();
 
   const AdditionalContent = () => {
     if (status_klaim === "Butuh Tindakan") {
@@ -212,21 +212,35 @@ const Card = ({
   };
 
   const fetchClaimLink = () => {
+    setLoading(true);
     axios
-      .get(`/api/ucpl-claim?policyId=1000001`)
+      .get(`/api/app/ucpl-claim?policyId=${id_polis}`)
       .then((res) => {
         window.location.href = res.data;
+        setErrorFetching(false);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setErrorFetching(true);
+        console.error(err);
+        setLoading(false);
+      });
   };
 
   const fetchPolisLink = () => {
+    setLoading(true);
     axios
-      .get(`/api/ucpl-policy?policyId=1000001`)
+      .get(`/api/app/ucpl-policy?policyId=${id_polis}`)
       .then((res) => {
         window.location.href = res.data;
+        setErrorFetching(false);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setErrorFetching(true);
+        console.error(err);
+        setLoading(false);
+      });
   };
 
   return (
