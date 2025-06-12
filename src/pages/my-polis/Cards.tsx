@@ -1,7 +1,10 @@
 import { usePageContext } from "@/components/Contexts/PagesContext";
 import CardContents from "@/components/Shared/CardContent";
 import { IconChevronRight } from "@tabler/icons-react";
+import axios from "axios";
+import { error } from "console";
 import Image from "next/image";
+import { useState } from "react";
 
 const Skeleton = () => {
   return (
@@ -53,6 +56,7 @@ const Card = ({
   status_klaim?: string;
 }) => {
   const { loading, setLoading } = usePageContext();
+
   const AdditionalContent = () => {
     if (status_klaim === "Butuh Tindakan") {
       return (
@@ -207,6 +211,24 @@ const Card = ({
     }
   };
 
+  const fetchClaimLink = () => {
+    axios
+      .get(`/api/ucpl-claim?policyId=1000001`)
+      .then((res) => {
+        window.location.href = res.data;
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const fetchPolisLink = () => {
+    axios
+      .get(`/api/ucpl-policy?policyId=1000001`)
+      .then((res) => {
+        window.location.href = res.data;
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="flex flex-col p-[16px] bg-white gap-16px rounded-[12px] gap-[11px] w-full">
       {loading ? (
@@ -294,10 +316,16 @@ const Card = ({
           ) : (
             status_polis !== "Kedaluwarsa" && (
               <div className="flex flex-row gap-[8px] w-full text-[12px] font-[600]">
-                <button className="px-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full">
+                <button
+                  onClick={() => fetchPolisLink()}
+                  className="px-[16px] py-[12px] rounded-full text-white bg-[#ED0226] w-full"
+                >
                   Lihat E-Polis
                 </button>
-                <button className="px-[16px] py-[12px] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full">
+                <button
+                  onClick={() => fetchClaimLink()}
+                  className="px-[16px] py-[12px] rounded-full text-[#ED0226] border-[2px] border-[#ED0226] w-full"
+                >
                   Klaim Polis
                 </button>
               </div>
