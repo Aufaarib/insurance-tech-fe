@@ -1,29 +1,30 @@
 import { usePageContext } from "@/components/Contexts/PagesContext";
-import {
-  Icon123,
-  IconArrowUp,
-  IconChevronDown,
-  IconLoader,
-  IconLoader2,
-} from "@tabler/icons-react";
+import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
+import { IconArrowUp, IconChevronDown, IconLoader } from "@tabler/icons-react";
+import axios from "axios";
+import moment from "moment";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Card from "./Cards";
-import PolisCategoryModal from "@/components/Modal/PolisCategoryModal";
-import Image from "next/image";
-import axios from "axios";
-import moment from "moment";
 
 const FilterContent = ({
   category,
   checked,
+  sortBy,
   setChecked,
 }: {
-  category: string;
-  checked: any;
+  category?: string;
+  checked?: any;
+  sortBy?: string;
   setChecked: any;
 }) => {
-  const [selected, setSelected] = useState(checked);
+  const [selected, setSelected] = useState(
+    category !== "Urutkan" ? checked : sortBy
+  );
+
+  console.log("category", category);
+  console.log("selected", selected);
 
   const handleClickApply = () => {
     setChecked(selected); // Sends the latest value
@@ -143,17 +144,37 @@ const MyPolisPage = () => {
   const loaderRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const fetchData = async (pageToFetch = 0) => {
+  const fetchData = async (
+    pageToFetch = 0,
+    checked: string,
+    category: string,
+    sortBy: string
+  ) => {
     if (isFetching || !hasNext) return;
     setIsFetching(true);
 
     try {
-      const res = await axios.get(`/api/mypolicies?page=${pageToFetch}`);
-      const result = res.data;
-      // setData(result.contents);
-      setData((prev: any) => [...prev, ...result?.contents]);
-      setHasNext(result.hashNext);
-      setPage(pageToFetch + 1);
+      if (category == "Polis") {
+        const res = await axios.get(
+          `/api/mypolicies?size=10&page=${pageToFetch}&filterPolicy=${
+            checked !== "all" ? (checked ? "ACTIVE" : "EXPIRED") : "ALL"
+          }&sort=activeSince,${sortBy == "newest" ? "asc" : "desc"}`
+        );
+        const result = res.data;
+        setPolises((prev: any) => [...prev, ...result?.contents]);
+        setHasNext(result.hashNext);
+        setPage(pageToFetch + 1);
+      } else if (category == "Klaim") {
+        const res = await axios.get(
+          `/api/myclaims?size=10&page=${pageToFetch}&filterClaim=${checked.toUpperCase()}&sort=updatedAt,${
+            sortBy == "newest" ? "asc" : "desc"
+          }`
+        );
+        const result = res.data;
+        setClaimed((prev: any) => [...prev, ...result?.contents]);
+        setHasNext(result.hashNext);
+        setPage(pageToFetch + 1);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -161,6 +182,59 @@ const MyPolisPage = () => {
       setLoading(false);
     }
   };
+
+  const scrollToTop = () => {
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const onChangeCategory = (name: string) => {
+    setChecked("all");
+    setSortBy("newest");
+    fetchData(0, checked, name, sortBy);
+    setCategory(name);
+  };
+
+  const handleApplyFilter = (selected: string) => {
+    if (selected == "newest" || selected == "oldest") {
+      fetchData(0, checked, category, selected);
+      setSortBy(selected);
+    } else {
+      fetchData(0, selected, category, sortBy);
+      setChecked(selected);
+    }
+
+    closeModal();
+  };
+
+  const handleOpenFilterModal = (category: any, sortBy?: string) => {
+    openPolisCategoryModal(
+      category,
+      <FilterContent
+        category={category}
+        sortBy={sortBy}
+        setChecked={handleApplyFilter}
+        checked={checked}
+      />
+    );
+  };
+
+  const notfounddata = () => {
+    return category == "Klaim"
+      ? claimed.length < 1 && true
+      : category == "Polis"
+      ? polises.length < 1 && true
+      : "";
+  };
+
+  useEffect(() => {
+    console.log(" === ");
+    console.log("category === ", category);
+    console.log("filterBy === ", checked);
+    console.log("sortBy === ", sortBy);
+    console.log(" === ");
+
+    fetchData(0, checked, category, sortBy);
+  }, [sortBy, checked]);
 
   useEffect(() => {
     const scrollEl = scrollContainerRef.current;
@@ -177,15 +251,11 @@ const MyPolisPage = () => {
     };
   }, []);
 
-  const scrollToTop = () => {
-    scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNext && !isFetching) {
-          fetchData(page);
+          fetchData(page, checked, category, sortBy);
         }
       },
       { threshold: 1.0 }
@@ -201,64 +271,7 @@ const MyPolisPage = () => {
   useEffect(() => {
     setPageTitle("Polis Saya");
     setLoading(true);
-    fetchData(page);
   }, []);
-
-  const onChangeCategory = (name: string) => {
-    setChecked("all");
-    setPolises(data.filter((val: any) => !val.claimed));
-    setClaimed(data.filter((val: any) => val.claimed));
-    setCategory(name);
-  };
-
-  useEffect(() => {
-    setPolises(data.filter((val: any) => !val?.claimed));
-    setClaimed(data.filter((val: any) => val?.claimed));
-  }, [data]);
-
-  const handleApplyFilter = (selected: string) => {
-    setChecked(selected);
-    if (category == "Polis") {
-      setPolises(
-        selected !== "all"
-          ? data.filter((val) => selected == val.product.active && !val.claimed)
-          : data.filter((val) => !val.claimed)
-      );
-    } else if (category == "Klaim") {
-      setClaimed(
-        selected !== "all"
-          ? data.filter(
-              (val) =>
-                selected
-                  .toLowerCase()
-                  .includes(val.claims[0]?.claimStatus.toLowerCase()) &&
-                val.claimed
-            )
-          : data.filter((val) => val.claimed)
-      );
-    }
-
-    closeModal();
-  };
-
-  const handleOpenFilterModal = (category: any) => {
-    openPolisCategoryModal(
-      category,
-      <FilterContent
-        category={category}
-        setChecked={handleApplyFilter}
-        checked={checked}
-      />
-    );
-  };
-
-  const notfounddata = () => {
-    return category == "Klaim"
-      ? claimed.length < 1 && true
-      : category == "Polis"
-      ? polises.length < 1 && true
-      : "";
-  };
 
   return (
     <div>
@@ -301,7 +314,7 @@ const MyPolisPage = () => {
           </button>
 
           <button
-            onClick={() => handleOpenFilterModal("Urutkan")}
+            onClick={() => handleOpenFilterModal("Urutkan", sortBy)}
             className="border-[1.5px] border-[#DAE0E9] p-[8px] rounded-full min-w-[38px] flex justify-center items-center"
           >
             <svg

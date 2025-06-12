@@ -8,7 +8,7 @@ export default async function handler(req: any, res: any) {
     },
     timestamp: 1748238489063,
     took: 33,
-    data: "https://localhost/this_is_fake_url",
+    data: "http://localhost:3000/my-polis",
   };
 
   if (req.method === "GET") {
