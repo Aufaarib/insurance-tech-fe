@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from "react";
 import Card from "./Cards";
 import config from "../../../config";
 import ErrorPage from "@/components/Shared/ErrorPage";
-import { header } from "../api/app/header";
 
 const FilterContent = ({
   category,
@@ -290,8 +289,6 @@ const MyPolisPage = () => {
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [loaderRef, hasNext, isFetching, page]);
-
-  const { API_URL } = config;
 
   useEffect(() => {
     setPageTitle("Polis Saya");

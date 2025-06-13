@@ -29,12 +29,12 @@ export const PageContextProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const [pageTitle, setPageTitle] = useState("");
   const [hiddenFooter, setHiddenFooter] = useState(false);
-  const [openedFooter, setOpenedFooter] = useState(pathname);
+  const [openedFooter, setOpenedFooter] = useState(pathname || "");
   const [loading, setLoading] = useState(true);
   const [errorFetching, setErrorFetching] = useState(false);
 
   useEffect(() => {
-    setOpenedFooter(pathname);
+    setOpenedFooter(pathname || "");
   }, [pathname]);
 
   return (
