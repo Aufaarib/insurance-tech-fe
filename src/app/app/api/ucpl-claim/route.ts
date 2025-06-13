@@ -21,17 +21,6 @@ export async function GET(req: NextRequest) {
   } catch (error: any) {
     console.error("API fetch error:", error.message);
 
-    const dummyData = {
-      status: {
-        code: "OK00",
-        message: "SUCCESS",
-      },
-      timestamp: 1748238489063,
-      took: 33,
-      data: "http://localhost:3000/my-polis",
-    };
-
-    // return NextResponse.json(dummyData.data, { status: 200 });
     return NextResponse.json(error.message, { status: 500 });
   }
 }
