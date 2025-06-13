@@ -214,7 +214,7 @@ const Card = ({
   const fetchClaimLink = () => {
     setLoading(true);
     axios
-      .get(`/api/app/ucpl-claim?policyId=${id_polis}`)
+      .get(`/app/api/ucpl-claim?policyId=${id_polis}`)
       .then((res) => {
         window.location.href = res.data;
         setErrorFetching(false);
@@ -230,7 +230,7 @@ const Card = ({
   const fetchPolisLink = () => {
     setLoading(true);
     axios
-      .get(`/api/app/ucpl-policy?policyId=${id_polis}`)
+      .get(`/app/api/ucpl-policy?policyId=${id_polis}`)
       .then((res) => {
         window.location.href = res.data;
         setErrorFetching(false);

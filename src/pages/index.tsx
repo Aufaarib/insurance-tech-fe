@@ -23,8 +23,6 @@ export default function Home() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [data, setData] = useState<any>(null);
 
-  console.log(data);
-
   const toggleItem = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
   };
@@ -33,7 +31,7 @@ export default function Home() {
     setLoading(true);
     setPageTitle("");
     axios
-      .get(`/api/app/mypolicy-sum`)
+      .get(`/app/api/mypolis-sum`)
       .then((res) => {
         setData(res.data);
         setLoading(false);
