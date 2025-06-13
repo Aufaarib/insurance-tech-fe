@@ -133,8 +133,6 @@ const MyPolisPage = () => {
     errorFetching,
     setErrorFetching,
   } = usePageContext();
-  // const { pageTitle, setPageTitle } = usePageContext();
-
   const [category, setCategory] = useState("Polis");
   const [sortBy, setSortBy] = useState("newest");
 
@@ -167,22 +165,28 @@ const MyPolisPage = () => {
     try {
       if (category == "Polis") {
         const res = await axios.get(
-          `/api/app/mypolicies?size=10&page=${pageToFetch}&filterPolicy=${
+          `/app/api/mypolicies?size=10&page=${pageToFetch}&filterPolicy=${
             checked !== "all" ? (checked ? "ACTIVE" : "EXPIRED") : "ALL"
           }&sort=activeSince,${sortBy == "newest" ? "asc" : "desc"}`
         );
         const result = res.data;
-        setPolises((prev: any) => [...prev, ...result?.contents]);
+        setPolises((prev: any) => [
+          ...prev,
+          ...(Array.isArray(result?.contents) ? result.contents : []),
+        ]);
         setHasNext(result.hashNext);
         setPage(pageToFetch + 1);
       } else if (category == "Klaim") {
         const res = await axios.get(
-          `/api/app/myclaims?size=10&page=${pageToFetch}&filterClaim=${checked.toUpperCase()}&sort=updatedAt,${
-            sortBy == "newest" ? "asc" : "desc"
+          `/app/api/myclaims?size=10&page=${pageToFetch}&filterClaim=${checked.toUpperCase()}&sort=updatedAt,${
+            sortBy === "newest" ? "asc" : "desc"
           }`
         );
         const result = res.data;
-        setClaimed((prev: any) => [...prev, ...result?.contents]);
+        setClaimed((prev: any) => [
+          ...prev,
+          ...(Array.isArray(result?.contents) ? result.contents : []),
+        ]);
         setHasNext(result.hashNext);
         setPage(pageToFetch + 1);
       }
@@ -201,6 +205,7 @@ const MyPolisPage = () => {
   };
 
   const onChangeCategory = (name: string) => {
+    setLoading(true);
     setChecked("all");
     setSortBy("newest");
     fetchData(0, checked, name, sortBy);
@@ -291,27 +296,6 @@ const MyPolisPage = () => {
   useEffect(() => {
     setPageTitle("Polis Saya");
     setLoading(true);
-
-    // try {
-    //   const response = axios.get(`${API_URL}/policy`, {
-    //     params: {
-    //       size: "10",
-    //       page: "0",
-    //       filterPolicy: "ALL",
-    //       sort: "activeSince,asc",
-    //     },
-    //     headers: header(), // <-- Use generated headers here
-    //   });
-
-    //   console.log(response);
-
-    //   // res.status(200).json(response.data);
-    // } catch (error: any) {
-    //   // console.log(response);
-    //   console.error("API fetch error:", error.message);
-    //   // res.status(200).json(dummyData.data); // or return 500 if you don't want fallback
-    //   // res.status(500).json({ message: error.message });
-    // }
   }, []);
 
   return (

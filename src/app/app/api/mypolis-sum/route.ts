@@ -1,0 +1,80 @@
+import axios from "axios";
+import config from "../../../../../config";
+import { NextRequest, NextResponse } from "next/server";
+import { header } from "../header";
+
+export async function GET(req: NextRequest) {
+  const { API_URL } = config;
+  const { searchParams } = new URL(req.url);
+
+  try {
+    const response = await axios.get(`${API_URL}/policy-summary`, {
+      params: {
+        size: searchParams.get("size"),
+        page: searchParams.get("page"),
+        filterPolicy: searchParams.get("filterPolicy"),
+        sort: searchParams.get("sort"),
+      },
+      headers: header(),
+    });
+
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    console.error("API fetch error:", error.message);
+
+    const dummyData = {
+      status: {
+        code: "OK00",
+        message: "SUCCESS",
+      },
+      timestamp: 1748335767807,
+      took: 124,
+      data: {
+        total: 3,
+        active: 1,
+        claim: 1,
+        expired: 1,
+        latestPolicy: {
+          policyId: "1000001",
+          createdAt: "2025-05-27 12:58:52",
+          channelTrxId: "221216142158@221217142158@9811809SMS838718",
+          partnerOrderId: "KLO00025E1LC1184780001",
+          activeSince: "2025-05-27 13:01:01",
+          activeUntil: "2025-06-10 13:01:01",
+          issuedAt: "2025-05-27 13:01:01",
+          endDate: null,
+          state: "Policy Protected",
+          product: {
+            id: 1,
+            bid: "i00001",
+            keyword: "igloo_PSP14DT1_IOD",
+            commercialName: "Proteksi dari Kerugian Serangan Hacker",
+            productType: "Phone-Screen-Protection",
+            productKey: "PSP",
+            productPlanKey: "igloo_PSP30DT2_IOD",
+            createdAt: "2025-05-22 19:55:47",
+            updatedAt: "2025-05-22 19:55:47",
+            partnerId: "igloo",
+            insuranceName: "allianz",
+            metadata: {
+              iconUrl: "/icons/polis-category/serangan-hacker.png",
+              insuranceIcon: "/icons/Allianz.png",
+              bannerUrl: "",
+              benefit: "",
+            },
+            validityPeriod: 14,
+            active: true,
+          },
+          claims: [],
+          premium: 200,
+          coiNo: "string",
+          coiUrl: "https://",
+          claimed: false,
+        },
+      },
+    };
+
+    return NextResponse.json(dummyData.data, { status: 200 });
+    // return NextResponse.json(error.message, { status: 500 });
+  }
+}

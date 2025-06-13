@@ -56,9 +56,9 @@ const DetailPolis = () => {
     setLoading(true);
     setPageTitle("Proteksi Layar Handphone");
     setHiddenFooter(true);
-    if (params.get("id")) {
+    if (params?.get("id")) {
       axios
-        .get(`/api/app/policy-det?policy_id=${params.get("id")}`)
+        .get(`/app/api/policy-det?policy_id=${params.get("id")}`)
         .then((res) => {
           setData(res.data.contents[0]);
           setLoading(false);
@@ -70,7 +70,7 @@ const DetailPolis = () => {
           setErrorFetching(true);
         });
     }
-  }, [params.get("id")]);
+  }, [params?.get("id")]);
 
   const onChangeCategory = (name: string) => {
     setCategory(name);
