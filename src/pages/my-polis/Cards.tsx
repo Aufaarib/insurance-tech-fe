@@ -55,6 +55,8 @@ const Card = ({
   id_polis?: string;
   status_klaim?: string;
 }) => {
+  // console.log(polis_category);
+
   const { loading, setLoading, setErrorFetching } = usePageContext();
 
   const AdditionalContent = () => {
@@ -255,23 +257,27 @@ const Card = ({
             className="flex flex-row gap-[12px] w-full items-center justify-between rounded-[12px]"
           >
             <div className="flex flex-row items-center justify-center gap-[8px]">
-              <Image
-                src={polis_category || ""}
-                alt="polis-category"
-                className="w-[40px]"
-                width={100}
-                height={100}
-                unoptimized
-              />
-              <div className="flex flex-col gap-[4px]">
+              {polis_category && (
                 <Image
-                  src={insurance || ""}
-                  alt="insurance"
+                  src={polis_category || ""}
+                  alt="polis-category"
                   className="w-[40px]"
                   width={100}
                   height={100}
                   unoptimized
                 />
+              )}
+              <div className="flex flex-col gap-[4px]">
+                {insurance && (
+                  <Image
+                    src={insurance || ""}
+                    alt="insurance"
+                    className="w-[40px]"
+                    width={100}
+                    height={100}
+                    unoptimized
+                  />
+                )}
                 <p className="text-[#181C21] text-[12px] font-[600] text-start">
                   {title}
                 </p>
