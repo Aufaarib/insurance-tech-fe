@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       headers: header(),
     });
 
-    return NextResponse.json(response.data);
+    return NextResponse.json(response.data.data);
   } catch (error: any) {
     console.error("API fetch error:", error.message);
 

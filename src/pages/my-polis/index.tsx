@@ -25,9 +25,6 @@ const FilterContent = ({
     category !== "Urutkan" ? checked : sortBy
   );
 
-  // console.log("category", category);
-  // console.log("selected", selected);
-
   const handleClickApply = () => {
     setChecked(selected); // Sends the latest value
   };
@@ -158,7 +155,6 @@ const MyPolisPage = () => {
     category: string,
     sortBy: string
   ) => {
-    if (isFetching || !hasNext) return;
     setIsFetching(true);
 
     try {
@@ -372,8 +368,8 @@ const MyPolisPage = () => {
               <div key={index}>
                 <Card
                   title={val.product.commercialName}
-                  insurance={val.product.metadata.insuranceIcon}
-                  polis_category={val.product.metadata.iconUrl}
+                  insurance={val.product.metadata?.insuranceIcon || null}
+                  polis_category={val.product.metadata?.iconUrl || null}
                   id_polis={val.policyId}
                   periode_proteksi={
                     moment(val.activeSince).format("DD MMM YYYY") +
@@ -396,8 +392,8 @@ const MyPolisPage = () => {
               <div key={index}>
                 <Card
                   title={val.product.commercialName}
-                  insurance={val.product.metadata.insuranceIcon}
-                  polis_category={val.product.metadata.iconUrl}
+                  insurance={val.product.metadata?.insuranceIcon || null}
+                  polis_category={val.product.metadata?.iconUrl || null}
                   id_polis={val.policyId}
                   periode_proteksi={
                     moment(val.activeSince).format("DD MMM YYYY") +

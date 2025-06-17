@@ -33,6 +33,8 @@ export default function Home() {
     axios
       .get(`/app/api/mypolis-sum`)
       .then((res) => {
+        console.log(res.data);
+
         setData(res.data);
         setLoading(false);
         setErrorFetching(false);
@@ -113,9 +115,9 @@ export default function Home() {
       <div className="flex flex-col p-[18px] w-full absolute top-[220px] gap-[24px] pb-[90px]">
         {/* content */}
         <div className="relative flex w-full flex-col items-start justify-center p-[16px] gap-[12px] bg-white rounded-[12px]">
-          {loading ? (
+          {loading && !data ? (
             <MyPolicySkeleton />
-          ) : data ? (
+          ) : !loading && data ? (
             <>
               <div className="flex flex-row w-full justify-between">
                 <div className="flex flex-row items-center text-center gap-[4px] font-[600] text-[14px] w-full poppins-font">
@@ -150,26 +152,32 @@ export default function Home() {
                   className="flex flex-row w-full items-center justify-between p-[16px] border-[1px] border-[#DAE0E9] rounded-[12px]"
                 >
                   <div className="flex flex-row w-full items-center gap-[12px]">
-                    <Image
-                      src={data.latestPolicy?.product.metadata.iconUrl || ""}
-                      alt="polis-category"
-                      className="w-[40px] h-[40px]"
-                      width={100}
-                      height={100}
-                      unoptimized
-                    />
-                    <div className="flex flex-col gap-[4px] items-start justify-start">
+                    {data.latestPolicy?.product?.metadata?.iconUrl && (
                       <Image
                         src={
-                          data.latestPolicy?.product.metadata.insuranceIcon ||
-                          ""
+                          data.latestPolicy?.product?.metadata?.iconUrl || ""
                         }
-                        alt="brand"
-                        className="w-[40px]"
+                        alt="polis-category"
+                        className="w-[40px] h-[40px]"
                         width={100}
                         height={100}
                         unoptimized
                       />
+                    )}
+                    <div className="flex flex-col gap-[4px] items-start justify-start">
+                      {data.latestPolicy?.product.metadata?.insuranceIcon && (
+                        <Image
+                          src={
+                            data.latestPolicy?.product.metadata
+                              ?.insuranceIcon || ""
+                          }
+                          alt="brand"
+                          className="w-[40px]"
+                          width={100}
+                          height={100}
+                          unoptimized
+                        />
+                      )}
                       <p className="text-[#181C21] text-[12px] font-[600] text-start">
                         {data.latestPolicy?.product.commercialName}
                       </p>
@@ -188,9 +196,10 @@ export default function Home() {
                         </svg>
 
                         <p>
-                          {moment(data.latestPolicy?.activeUntil).format(
-                            "DD MMM YYYY"
-                          )}
+                          {moment(
+                            data.latestPolicy?.activeUntil,
+                            "YYYY/MM/DD hh:ss"
+                          ).format("DD MMM YYYY")}
                         </p>
                       </div>
                     </div>

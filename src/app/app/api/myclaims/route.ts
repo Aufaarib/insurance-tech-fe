@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
 
   try {
-    const response = await axios.get(`${API_URL}/claim`, {
+    const response = await axios.get(`${API_URL}/claims`, {
       params: {
         size: searchParams.get("size"),
         page: searchParams.get("page"),
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       headers: header(),
     });
 
-    return NextResponse.json(response.data);
+    return NextResponse.json(response.data.data);
   } catch (error: any) {
     console.error("API fetch error:", error.message);
 

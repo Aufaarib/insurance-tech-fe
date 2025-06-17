@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ErrorPage = () => {
   return (
-    <div className="relative w-full h-[100dvh] flex flex-col items-center justify-center gap-[24px] bg-[#eff1f4] z-[999999]">
+    <div className="relative w-full h-[100dvh] flex flex-col items-center justify-center gap-[24px] bg-[#eff1f4] z-[99]">
       <Image
         src="/icons/page-error.png"
         alt="page-error"
