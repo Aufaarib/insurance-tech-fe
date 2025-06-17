@@ -155,7 +155,6 @@ const MyPolisPage = () => {
     category: string,
     sortBy: string
   ) => {
-    if (isFetching || !hasNext) return;
     setIsFetching(true);
 
     try {
@@ -201,11 +200,11 @@ const MyPolisPage = () => {
   };
 
   const onChangeCategory = (name: string) => {
-    // setLoading(true);
+    setLoading(true);
     setChecked("all");
     setSortBy("newest");
-    setCategory(name);
     fetchData(0, checked, name, sortBy);
+    setCategory(name);
   };
 
   const handleApplyFilter = (selected: string) => {
